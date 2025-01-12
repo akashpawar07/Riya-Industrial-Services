@@ -52,7 +52,7 @@ export default function Navbar() {
       if (loading) return; // Prevent multiple clicks
       setLoading(true);
       
-      const response = await axios.post("/api/users/logout");
+      const response = await axios.post("https://riya-industrial-services.vercel.app/api/users/logout");
       
       if (response.data.success) {
         // Show success toast and navigate after it closes

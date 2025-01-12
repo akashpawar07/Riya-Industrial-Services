@@ -38,7 +38,7 @@ export default function ResetPasswordPage() {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-            const response = await axios.post("/api/users/resetpassword", {
+            const response = await axios.post("https://riya-industrial-services.vercel.app/api/users/resetpassword", {
                 token,
                 newPassword: passwords.newPassword
             }, {

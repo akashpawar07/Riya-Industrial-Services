@@ -19,7 +19,7 @@ const JobsSection = () => {
     const fetchJobs = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/users/job-posting");
+        const response = await fetch("https://riya-industrial-services.vercel.app/api/users/job-posting");
         const data = await response.json();
         setJobs(data.data);
       } catch (error) {
