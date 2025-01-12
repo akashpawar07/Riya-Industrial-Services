@@ -4,7 +4,7 @@
   "framework": "nextjs",
   "regions": ["bom1"],
   "functions": {
-    "api/**/*.js": {
+    "src/app/api/*/.js": {
       "memory": 1024,
       "maxDuration": 10
     }
