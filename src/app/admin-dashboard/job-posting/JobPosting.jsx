@@ -101,6 +101,7 @@ const JobPostingSystem = () => {
             toast.success('Job posted successfully!');
             setFormData(initialFormData);
             setIsSubmitting(false);
+            // console.log()
         } catch (error) {
             console.error('Failed to post job:', error);
             toast.error(error.response?.data?.message || 'Failed to post job');
