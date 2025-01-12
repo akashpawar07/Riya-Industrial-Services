@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { Suspense } from 'react';
 import ResetPassword from './resetPasswordPage';
-export const metadata = {
-    title: "Reset Password",
-  };
-  
 
-function forgotPasswordPage() {
+export const metadata = {
+  title: "Reset Password",
+};
+
+function ForgotPasswordPage() {
   return (
-    <>
-      <ResetPassword/>
-    </>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPassword />
+    </Suspense>
+  );
 }
 
-export default forgotPasswordPage
+export default ForgotPasswordPage;
