@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["region-name"],
+  "regions": ["Mumbai, India(South)-bom1"],
   "functions": {
     "api/**/*.js": {
       "memory": 1024,

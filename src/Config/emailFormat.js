@@ -105,6 +105,8 @@ export const generatePasswordResetSuccessEmail = (username) => {
     `;
 };
 
+
+
 // Send password reset email
 export const sendPasswordResetEmail = async (email, username, resetUrl) => {
     const transporter = createTransporter();
@@ -118,6 +120,8 @@ export const sendPasswordResetEmail = async (email, username, resetUrl) => {
 
     await transporter.sendMail(mailOptions);
 };
+
+
 
 // Send password reset success email
 export const sendPasswordResetSuccessEmail = async (email, username) => {
