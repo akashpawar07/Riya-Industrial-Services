@@ -30,7 +30,7 @@ export default function LoginPage() {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-            const response = await axios.post("https://riya-industrial-services.vercel.app/api/users/login", user, {
+            const response = await axios.post("/api/users/login", user, {
                 signal: controller.signal,
                 timeout: 10000
             });

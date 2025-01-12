@@ -34,7 +34,7 @@ export default function AdminDashboard() {
     const handleSingleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this message?')) {
             try {
-                const response = await axios.delete(`https://riya-industrial-services.vercel.app/api/users/contact/${id}`);
+                const response = await axios.delete(`/api/users/contact/${id}`);
 
                 if (response.data.success) {
                     // Only update state if delete was successful

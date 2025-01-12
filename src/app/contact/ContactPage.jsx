@@ -92,10 +92,8 @@ export default function ContactPage() {
         return;
       }
 
-      // console.log("Form Data: ", formData);
-
       // Post API request on the "register" endpoint
-      const response = await axios.post("https://riya-industrial-services.vercel.app/api/users/contact", formData);
+      const response = await axios.post("/api/users/contact", formData);
       console.log("response data :", response)
       
       if (response.data.success) {

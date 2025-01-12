@@ -37,7 +37,7 @@ export default function ForgotPassword() {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-            const response = await axios.post("https://riya-industrial-services.vercel.app/api/users/forgotpassword", 
+            const response = await axios.post("/api/users/forgotpassword", 
                 { email },
                 {
                     signal: controller.signal,
