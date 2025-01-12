@@ -40,7 +40,7 @@ const JobPostingSystem = () => {
         const fetchJobs = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('https://riya-industrial-services.vercel.app/api/users/job-posting');
+                const response = await axios.get('/api/users/job-posting');
                 setJobs([...response.data.data]);
             } catch (error) {
                 console.error('Failed to fetch jobs:', error);
