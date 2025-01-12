@@ -2,11 +2,5 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["bom1"],
-  "functions": {
-    "app/api/**/*.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  "regions": ["bom1"]
 }

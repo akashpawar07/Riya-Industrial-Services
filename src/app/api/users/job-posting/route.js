@@ -9,7 +9,9 @@ export async function POST(request) {
     try {
         const reqBody = await request.json();
 
-        const {title, description, requiredSkills, location, jobType, experience, ctc, lastDateToApply, showCtc} = reqBody;
+        const {
+            title, description, requiredSkills, location, jobType, experience, ctc, lastDateToApply, showCtc
+        } = reqBody;
 
         if(!title || !description || ! requiredSkills || !location || !jobType || !experience || !lastDateToApply){
             return NextResponse({
@@ -18,27 +20,11 @@ export async function POST(request) {
             })
         }
 
-        // Validate job type matches enum values
-        // if (reqBody.jobType && !['Full Time', 'Part Time', 'Internship'].includes(reqBody.jobType)) {
-        //     return NextResponse.json({
-        //         success: false,
-        //         message: "Job type must be either 'Full Time', 'Part Time', or 'Internship'"
-        //     }, { status: 400 });
-        // }
 
         // Create new job
         const newJob = new JobModel({
-            // title: reqBody.title,
-            // description: reqBody.description,
-            // requiredSkills: reqBody.requiredSkills,
-            // location: reqBody.location,
-            // jobType: reqBody.jobType,
-            // experience: reqBody.experience,
-            // ctc: reqBody.ctc || 'Not disclosed',
-            // lastDateToApply: reqBody.lastDateToApply,
-            // showCtc: reqBody.showCtc || false
-
-            title, description, requiredSkills, location, jobType, experience, ctc, lastDateToApply, showCtc
+            title, description, requiredSkills, location,
+            jobType, experience, ctc, lastDateToApply, showCtc
         });
 
         // Save job and capture any validation errors
