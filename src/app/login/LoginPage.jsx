@@ -48,6 +48,7 @@ export default function LoginPage() {
             } else {
                 toast.error(response.data.message || "Login Failed", { theme: "colored" });
             }
+            
         } catch (error) {
             if (error.code === 'ECONNABORTED') {
                 toast.error("Request timed out. Please try again.", { theme: "colored" });

@@ -51,9 +51,9 @@ export default function Navbar() {
     try {
       if (loading) return; // Prevent multiple clicks
       setLoading(true);
-      
+
       const response = await axios.post("/api/users/logout");
-      
+
       if (response.data.success) {
         // Show success toast and navigate after it closes
         toast.success("Logout Successful", {
@@ -75,10 +75,8 @@ export default function Navbar() {
   };
 
   const navItems = [
-    { label: 'About Us', href: '/about' },
-    { label: 'Gallery', href: '/gallery' },
-    { label: 'Career', href: '/career' },
-    { label: 'Contact Us', href: '/contact' }
+    { label: 'All Contacts', href: '/admin-dashboard' },
+    { label: 'Post New Job', href: '/admin-dashboard/job-posting' },
   ];
 
   const serviceItems = [
@@ -89,7 +87,7 @@ export default function Navbar() {
 
   return (
     <div className='bg-slate-800/50'>
-      <ToastContainer 
+      <ToastContainer
         position="top-right"
         theme="colored"
         limit={1}
@@ -107,6 +105,18 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex md:items-center md:space-x-4">
+
+              {/* Other Nav Items */}
+              {navItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              
               <button
                 className='text-red-500 p-3 md:flex gap-2 items-center hover:bg-red-100 rounded-md transition-colors disabled:opacity-50'
                 onClick={handleLogout}
@@ -115,6 +125,8 @@ export default function Navbar() {
                 <Power className="w-5 h-5" />
                 {loading ? "Logging out..." : "Logout"}
               </button>
+
+
             </div>
 
             {/* Mobile menu button */}
@@ -140,29 +152,26 @@ export default function Navbar() {
 
       {/* Mobile Navigation Overlay */}
       <div
-        className={`fixed inset-0 bg-white z-40 md:hidden transition-transform duration-300 ease-in-out transform ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed inset-0 bg-white z-40 md:hidden transition-transform duration-300 ease-in-out transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
         style={{ top: '64px' }}
       >
         <div className="h-full overflow-y-auto">
           <div className="px-4 pt-4 pb-20 space-y-3">
             {/* Services Section in Mobile */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="w-full flex items-center justify-between px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               >
                 Services
-                <ChevronDown className={`w-4 h-4 transform transition-transform duration-200 ${
-                  isDropdownOpen ? 'rotate-180' : ''
-                }`} />
+                <ChevronDown className={`w-4 h-4 transform transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''
+                  }`} />
               </button>
 
               <div
-                className={`pl-4 space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${
-                  isDropdownOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}
+                className={`pl-4 space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${isDropdownOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
               >
                 {serviceItems.map((item) => (
                   <Link
@@ -179,7 +188,7 @@ export default function Navbar() {
                   </Link>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Other Nav Items */}
             {navItems.map((item) => (

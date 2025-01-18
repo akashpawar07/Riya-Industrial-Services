@@ -150,7 +150,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col text-center md:flex-row justify-between items-center text-sm">
           <p>Copyright © 2024 Riya Industrial Services. All Rights Reserved.</p>
           <p className="mt-2 md:mt-0">
-            Website Design | Developed By: <span className="text-blue-400 hover:text-blue-300"><a href="https://akashpawar07.github.io/portfolio/">Akash S Pawar</a></span>
+            Website Design | Developed By: <span className="text-blue-400 hover:text-blue-300"><a href="">Akash S Pawar</a></span>
           </p>
         </div>
       </div>
