@@ -33,6 +33,16 @@ export default function ResetPasswordPage() {
             return;
         }
 
+        // Password validation
+        // const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // if (passwords.newPassword.length < 8 || passwords.newPassword.length > 20) {
+        //     toast.info("Please ensure your password is between 8 to 20 characters in length.");
+        //     return;
+        // } else if (!passwordPattern.test(passwords.newPassword)) {
+        //     toast.info("For your security, please ensure that your password contains a combination of letters, numbers, and special characters");
+        //     return;
+        // }
+
         try {
             setLoading(true);
             const controller = new AbortController();
@@ -136,7 +146,7 @@ export default function ResetPasswordPage() {
                                         )}
                                     </button> */}
                                 </div>
-                                
+
                             </div>
 
                             <div className="space-y-2">

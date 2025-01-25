@@ -54,7 +54,7 @@ export default function ForgotPassword() {
                 setEmailSent(true);
                 toast.success("Recovery instructions sent to your email", { 
                     theme: "colored",
-                    autoClose: 5000 
+                    autoClose: 3000 
                 });
             } else {
                 throw new Error(response.data.error || "Failed to send recovery email");

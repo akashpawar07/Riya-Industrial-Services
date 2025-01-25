@@ -60,7 +60,11 @@ export default function Navbar() {
             {/* Logo and Company Name */}
             <div className="flex-shrink-0">
               <Link href="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
-                Riya Industrial Services
+              <img
+              src="/images/logo.png"
+              alt="Company Logo"
+              className="h-20 lg:h-24 w-auto"
+            />
               </Link>
             </div>
 
@@ -123,9 +127,9 @@ export default function Navbar() {
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
-                  <X className="h-6 w-6" />
+                  <X className="h-8 w-8" />
                 ) : (
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-8 w-8" />
                 )}
               </button>
             </div>

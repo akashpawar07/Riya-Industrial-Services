@@ -7,7 +7,7 @@ export async function middleware(request) {
         const pathname = request.nextUrl.pathname;
 
         // Define authentication routes
-        const authRoutes = ['/', '/login', '/forgot-password'];
+        const authRoutes = ['/', '/login'];
         const isAuthRoute = authRoutes.includes(pathname);
 
         // If user is logged in (has auth token) and tries to access auth routes

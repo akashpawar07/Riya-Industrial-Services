@@ -36,6 +36,7 @@ const JobPostingSystem = () => {
     const [formData, setFormData] = useState(initialFormData);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Get the all posted jobs
     useEffect(() => {
         const fetchJobs = async () => {
             try {
@@ -55,36 +56,23 @@ const JobPostingSystem = () => {
     }, []);
 
     const validateForm = () => {
-        if (!isSubmitting) return true;
-
-        const requiredFields = {
-            title: 'Job Title',
-            description: 'Job Description',
-            requiredSkills: 'Required Skills',
-            location: 'Location',
-            jobType: 'Job Type',
-            experience: 'Experience',
-            lastDateToApply: 'Last Date to Apply'
-        };
-
-        let isValid = true;
-
-        for (const [field, label] of Object.entries(requiredFields)) {
-            if (!formData[field].trim()) {
-                toast.error(`${label} is required`);
-                isValid = false;
-            }
+        if (!formData.title.trim() || !formData.description.trim() ||
+            !formData.requiredSkills.trim() || !formData.location.trim() ||
+            !formData.experience.trim() || !formData.lastDateToApply.trim()) {
+            toast.error("All fields are mandatory");
+            return false;
         }
 
         const currentDate = new Date().toISOString().split('T')[0];
         if (formData.lastDateToApply < currentDate) {
             toast.error('Last date to apply cannot be in the past');
-            isValid = false;
+            return false;
         }
 
-        return isValid;
-    };
+        return true;
+    }
 
+    // Submit the form
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -100,17 +88,16 @@ const JobPostingSystem = () => {
             setJobs(prevJobs => [...prevJobs, response.data.data]);
             toast.success('Job posted successfully!');
             setFormData(initialFormData);
-            setIsSubmitting(false);
-            // console.log()
         } catch (error) {
             console.error('Failed to post job:', error);
             toast.error(error.response?.data?.message || 'Failed to post job');
-            setIsSubmitting(false);
         } finally {
             setLoading(false);
+            setIsSubmitting(false);
         }
     };
 
+    // Delete the job
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this job posting?')) {
             return;
@@ -137,6 +124,7 @@ const JobPostingSystem = () => {
         }));
     };
 
+    // CTC login for default & manual
     const handleCtcToggle = () => {
         setFormData(prev => ({
             ...prev,
@@ -145,6 +133,7 @@ const JobPostingSystem = () => {
         }));
     };
 
+    // Date format
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -154,12 +143,12 @@ const JobPostingSystem = () => {
     };
 
     return (
-        <div className="container mx-auto p-6 max-w-7xl bg-slate-200 dark:bg-gray-800">
+        <div className="container mx-auto px-4 py-6 max-w-7xl bg-gray-100 dark:bg-gray-900">
             <ToastContainer position="top-right" autoClose={3000} />
 
             <div className="grid gap-8 lg:grid-cols-2">
                 {/* Job Posting Form */}
-                <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                     <div className="flex items-center gap-2 mb-6">
                         <Briefcase className="w-6 h-6 text-blue-600" />
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Post New Job</h2>
@@ -178,8 +167,9 @@ const JobPostingSystem = () => {
                                 value={formData.title}
                                 onChange={handleChange}
                                 disabled={loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                placeholder="e.g. Senior Software Engineer"
+                                autocomplete="off"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="Enter job title here..."
                             />
                         </div>
 
@@ -194,8 +184,9 @@ const JobPostingSystem = () => {
                                 value={formData.description}
                                 onChange={handleChange}
                                 disabled={loading}
+                                autocomplete="off"
                                 rows="4"
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                 placeholder="Enter detailed job description..."
                             />
                         </div>
@@ -212,8 +203,9 @@ const JobPostingSystem = () => {
                                 value={formData.location}
                                 onChange={handleChange}
                                 disabled={loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                placeholder="e.g. New York, NY"
+                                autocomplete="off"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="e.g. Pune India, MH"
                             />
                         </div>
 
@@ -228,7 +220,7 @@ const JobPostingSystem = () => {
                                 value={formData.jobType}
                                 onChange={handleChange}
                                 disabled={loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                             >
                                 {jobTypes.map(type => (
                                     <option key={type} value={type}>{type}</option>
@@ -248,7 +240,8 @@ const JobPostingSystem = () => {
                                 value={formData.experience}
                                 onChange={handleChange}
                                 disabled={loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                autocomplete="off"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                 placeholder="e.g. 2-3 years"
                             />
                         </div>
@@ -265,8 +258,9 @@ const JobPostingSystem = () => {
                                 value={formData.requiredSkills}
                                 onChange={handleChange}
                                 disabled={loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                placeholder="e.g. React, Node.js, MongoDB"
+                                autocomplete="off"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="Enter required skills here..."
                             />
                         </div>
 
@@ -293,8 +287,9 @@ const JobPostingSystem = () => {
                                 value={formData.ctc}
                                 onChange={handleChange}
                                 disabled={!formData.showCtc || loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                placeholder="e.g. $80,000 - $100,000"
+                                autocomplete="off"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="e.g. ₹5,00,000 - ₹7, 00,000"
                             />
                         </div>
 
@@ -310,7 +305,7 @@ const JobPostingSystem = () => {
                                 value={formData.lastDateToApply}
                                 onChange={handleChange}
                                 disabled={loading}
-                                className="w-full px-4 py-2 border dark:border-none dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                             />
                         </div>
 
@@ -326,11 +321,12 @@ const JobPostingSystem = () => {
                     </form>
                 </div>
 
+                
                 {/* Job Listings */}
-                <div className="w-full md:p-4 rounded-lg dark:bg-gray-700">
+                <div className="w-full md:p-4 rounded-lg dark:bg-gray-800">
                     <div className="flex sm:items-center gap-2 mb-6">
                         <Briefcase className="w-6 h-6 text-blue-600" />
-                        <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">Posted Jobs: <span>{jobs.length}</span></h2>
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">Posted Jobs: <span className='text-green-700 animate-bounce'>{jobs.length}</span></h2>
                     </div>
 
                     <div className="space-y-4 max-h-[calc(100vh-10px)] overflow-y-auto">
@@ -346,7 +342,7 @@ const JobPostingSystem = () => {
                             </div>
                         ) : (
                             jobs.map((job) => (
-                                <div key={job._id} className="bg-white dark:bg-gray-900 border dark:border-none rounded-lg p-4 md:p-6 hover:shadow-lg transition">
+                                <div key={job._id} className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg p-4 md:p-6 hover:shadow-lg transition">
                                     <div className="space-y-4 w-full">
                                         {/* Job Title and Delete Button Row */}
                                         <div className="flex items-start justify-between gap-4">
@@ -354,52 +350,50 @@ const JobPostingSystem = () => {
                                             <button
                                                 onClick={() => handleDelete(job._id)}
                                                 disabled={loading}
-                                                className="p-2 text-red-600 hover:bg-red-200 rounded-lg transition shrink-0"
+                                                className="p-2 text-red-600 hover:bg-red-200 dark:hover:bg-red-900 rounded-lg transition shrink-0"
                                             >
                                                 <Trash2 className="w-5 h-5" />
                                             </button>
                                         </div>
 
-
                                         {/* Job Description */}
-                                        <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">{job.description}</p>
+                                        <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base">{job.description}</p>
 
-                                         {/* Job Basic Info */}
-                                         <div className="flex flex-wrap flex-col gap-3 text-sm text-gray-600 dark:text-gray-400">
+                                        {/* Job Basic Info */}
+                                        <div className="flex flex-wrap flex-col gap-3 text-sm text-gray-600 dark:text-gray-400">
                                             <span className="flex items-center gap-1">
-                                                <MapPin className="w-4 h-4 shrink-0" />
+                                                <MapPin className="w-4 h-4 shrink-0 text-gray-500 dark:text-gray-300" />
                                                 {job.location}
                                             </span>
                                             <span className="flex items-center gap-1">
-                                                <Clock className="w-4 h-4 shrink-0" />
+                                                <Clock className="w-4 h-4 shrink-0 text-gray-500 dark:text-gray-300" />
                                                 {job.jobType}
                                             </span>
                                             <span className="flex items-center gap-1">
-                                                <Award className="w-4 h-4 shrink-0" />
+                                                <Award className="w-4 h-4 shrink-0 text-gray-500 dark:text-gray-300" />
                                                 {job.experience}
                                             </span>
                                         </div>
 
                                         {/* Additional Details */}
                                         <div className="space-y-2">
-
                                             <div className="flex items-center gap-2">
                                                 <IndianRupee className="w-5 h-5 text-blue-600 shrink-0" />
-                                                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
                                                     <span className="font-medium">CTC:</span> {job.ctc}
                                                 </p>
                                             </div>
 
                                             <div className="flex items-center gap-2">
                                                 <Calendar className="w-5 h-5 text-red-600 shrink-0" />
-                                                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
                                                     <span className="font-medium">Apply by:</span> {formatDate(job.lastDateToApply)}
                                                 </p>
                                             </div>
 
                                             <div className="flex items-start gap-2">
                                                 <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                                                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
                                                     <span className="font-medium">Skills:</span> {job.requiredSkills}
                                                 </p>
                                             </div>

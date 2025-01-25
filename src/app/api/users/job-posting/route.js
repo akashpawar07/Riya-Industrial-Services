@@ -13,7 +13,7 @@ export async function POST(request) {
             title, description, requiredSkills, location, jobType, experience, ctc, lastDateToApply, showCtc
         } = reqBody;
 
-        if(!title || !description || ! requiredSkills || !location || !jobType || !experience || !lastDateToApply){
+        if(!title || !description || ! requiredSkills || !location || !jobType || !experience || !lastDateToApply ){
             return NextResponse({
                 message : "All required fields are mandatory",
                 success : false,
@@ -57,7 +57,7 @@ export async function POST(request) {
         console.error("Request failed:", error);
         return NextResponse.json({
             success: false,
-            message: error.message || "Internal Server Error"
+            message: "Internal Server Error"
         }, { status: 500 });
     }
 }
