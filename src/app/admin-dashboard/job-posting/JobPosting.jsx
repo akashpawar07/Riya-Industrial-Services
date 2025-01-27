@@ -144,7 +144,7 @@ const JobPostingSystem = () => {
 
     return (
         <div className="container mx-auto px-4 py-6 max-w-7xl bg-gray-100 dark:bg-gray-900">
-            <ToastContainer position="top-right" autoClose={3000} />
+            <ToastContainer position="top-center" theme='colored' autoClose={3000} />
 
             <div className="grid gap-8 lg:grid-cols-2">
                 {/* Job Posting Form */}

@@ -67,19 +67,16 @@ const JobsSection = () => {
   }, [searchTerm, filteredJobs]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b  bg-slate-200 dark:bg-gray-900">
     
       <div className="container mx-auto px-4 pt-8">
         <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 "/>
             <input
               type="text"
               placeholder="Search jobs by title, location, description, skills, or job type..."
-              className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                       placeholder-gray-500 dark:placeholder-gray-400"
+              className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -97,7 +94,7 @@ const JobsSection = () => {
           </div>
           <div className="flex items-center bg-blue-50 dark:bg-gray-700 rounded-lg px-4 py-2">
             <span className="font-medium text-blue-600 dark:text-blue-300">
-              Total Positions: <span className="font-bold">{jobs.length}</span>
+              Total Open Positions: <span className="font-bold">{jobs.length}</span>
             </span>
           </div>
         </div>

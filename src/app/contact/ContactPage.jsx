@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { MapPin, Phone, Mail, Send, Clock } from 'lucide-react';
@@ -33,6 +33,11 @@ export default function ContactPage() {
       message: ""
     })
   }
+
+  const sendMessageButtonText = useMemo(() =>
+    loading ? "Sending..." : "Send Message",
+    [loading]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,13 +86,13 @@ export default function ContactPage() {
       // }
 
       // Subject validation 
-      if(formData.subject.length < 3 || formData.subject.length > 100){
+      if (formData.subject.length < 3 || formData.subject.length > 100) {
         toast.error("Subject should be in between 3 to 100 words")
         return;
       }
 
       // message validation
-      if(formData.message.length < 3 || formData.message.length > 1000){
+      if (formData.message.length < 3 || formData.message.length > 1000) {
         toast.error("Please leave a message atleast in between 3 to 1000 words")
         return;
       }
@@ -95,7 +100,7 @@ export default function ContactPage() {
       // Post API request on the "register" endpoint
       const response = await axios.post("/api/users/contact", formData);
       console.log("response data :", response)
-      
+
       if (response.data.success) {
         toast.success(response.data.message);
       } else {
@@ -117,7 +122,7 @@ export default function ContactPage() {
   return (
     <>
       <ToastContainer position="top-right" theme="colored" />
-      <div className="min-h-screen bg-gray-50 pb-6">
+      <div className="min-h-screen  bg-slate-200 dark:bg-gray-900 pb-6">
         {/* Hero Section */}
         <div className="relative h-[60vh] w-full mb-24">
           <img
@@ -134,7 +139,7 @@ export default function ContactPage() {
 
         {/* Contact Section */}
         <div className="max-w-7xl mx-auto px-4 mb-16">
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-3">
               {/* Contact Information Sidebar */}
               <div className="bg-blue-600 p-8 text-white">
@@ -185,13 +190,13 @@ export default function ContactPage() {
 
               {/* Contact Form */}
               <div className="lg:col-span-2 p-8 lg:p-12">
-                <h2 className="text-3xl font-bold text-gray-800 mb-8">
+                <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">
                   Send us a Message
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="name" className="block text-sm font-medium dark:text-gray-100 mb-1">
                         Full Name
                       </label>
                       <input
@@ -200,12 +205,12 @@ export default function ContactPage() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border text-slate-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300  rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
 
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="email" className="block text-sm font-medium dark:text-gray-100 mb-1">
                         Email Address
                       </label>
                       <input
@@ -214,7 +219,7 @@ export default function ContactPage() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border text-slate-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
 
                       />
                     </div>
@@ -222,7 +227,7 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="phone" className="block text-sm font-medium dark:text-gray-100 mb-1">
                         Phone Number
                       </label>
                       <input
@@ -231,12 +236,12 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border text-slate-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
 
                       />
                     </div>
                     <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="subject" className="block text-sm font-medium dark:text-gray-100 mb-1">
                         Subject
                       </label>
                       <input
@@ -245,14 +250,14 @@ export default function ContactPage() {
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border text-slate-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
 
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="message" className="block text-sm font-medium dark:text-gray-100 mb-1">
                       Message
                     </label>
                     <textarea
@@ -261,7 +266,7 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       rows={6}
-                      className="w-full px-4 py-2 border text-slate-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                      className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
 
                     ></textarea>
                   </div>
@@ -271,7 +276,7 @@ export default function ContactPage() {
                     className="w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <Send className="h-5 w-5" />
-                    Send Message
+                    {sendMessageButtonText}
                   </button>
                 </form>
               </div>

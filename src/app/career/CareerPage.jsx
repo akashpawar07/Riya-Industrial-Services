@@ -93,11 +93,11 @@ const CareerPage = () => {
   // );
 
   return (
-    <div className="min-h-screen  bg-slate-200 dark:bg-gray-800">
+    <div className="min-h-screen  bg-slate-200 dark:bg-gray-900">
       <ToastContainer />
 
       {/* Hero Section */}
-      <div className="relative bg-blue-950 text-white py-32">
+      <div className="relative py-32 bg-slate-900 text-slate-100">
         <img
           src={PostImageUrl}
           alt="Career hero"
@@ -119,7 +119,7 @@ const CareerPage = () => {
       </div>
 
       {/* Culture Section */}
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto px-4 py-24 bg-slate-100 dark:bg-gray-900">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">Our Culture</h2>
           <p className="text-xl dark:text-gray-300 max-w-3xl mx-auto">
@@ -128,7 +128,7 @@ const CareerPage = () => {
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => (
-            <div key={index} className="bg-white dark:bg-gray-600 p-8 rounded-xl shadow-lg text-center">
+            <div key={index} className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg text-center">
               <div className="flex justify-center mb-6 ">{benefit.icon}</div>
               <h3 className="text-xl font-semibold mb-4 dark:text-slate-100">{benefit.title}</h3>
               <p className="dark:text-gray-200">{benefit.description}</p>
@@ -151,7 +151,7 @@ const CareerPage = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white dark:bg-gray-600 p-8 rounded-xl shadow-lg">
+              <div key={index} className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
                 <h3 className="text-xl font-semibold mb-4 dark:text-slate-100">{value.title}</h3>
                 <p className="dark:text-gray-200">{value.description}</p>
               </div>
