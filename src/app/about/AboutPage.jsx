@@ -70,7 +70,7 @@ export default function AboutPage() {
               <Building2 className="h-12 w-12 text-blue-500 mb-4" />
               <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-gray-100">Our Foundation</h3>
               <p className=" dark:text-gray-200 leading-relaxed">
-                RIYA INDUSTRIAL SERVICES PVT LTD. Established on the 15th of November 2017 by 
+                RIYA INDUSTRIAL SERVICES. Established on the 15th of November 2017 by 
                 MR.VIKAS MANZA, embarked on this voyage with a vision to 
                 scale new heights of success.
               </p>
@@ -92,7 +92,7 @@ export default function AboutPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-16">
           <h3 className="text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">Our Growth Story</h3>
           <p className=" dark:text-gray-200 leading-relaxed mb-6">
-            RIYA INDUSTRIAL SERVICES PVT LTD has grown in leaps and bounds over the years 
+            RIYA INDUSTRIAL SERVICES has grown in leaps and bounds over the years 
             following its inception. In the able hands of MR. Vikas Manza a diverse 
             workforce of the highest caliber and a strong infrastructure the company's portfolio of 
             diversified services by exceeding client expectations and achieving market leadership.
@@ -103,7 +103,7 @@ export default function AboutPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           <h3 className="text-2xl font-semibold mb-6 text-slate-800 dark:text-gray-100">Our Valued Clients</h3>
           <p className=" dark:text-gray-200 leading-relaxed mb-8">
-            In its never-ending quest for customer satisfaction, RIYA INDUSTRIAL SERVICES PVT LTD 
+            In its never-ending quest for customer satisfaction, RIYA INDUSTRIAL SERVICES
             has along the road bagged contracts with an impressive group of clients including:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
