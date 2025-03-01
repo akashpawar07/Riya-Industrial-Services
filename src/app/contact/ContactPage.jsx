@@ -41,11 +41,13 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true at the beginning of submission
 
     try {
       // Validate mandatory fields
       if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
         toast.error("All fields are mandatory.");
+        setLoading(false); // Reset loading state if validation fails
         return; // Exiting the function after warning
       }
 
@@ -54,11 +56,13 @@ export default function ContactPage() {
 
       if (!usernameRegex.test(formData.name)) {
         toast.error("For your name, please use letters only. No numbers or multiple spaces allowed.");
+        setLoading(false); // Reset loading state
         return; // Exiting the function
       }
 
       if (formData.name.length < 3 || formData.name.length > 25) {
         toast.error("To proceed, please make sure that your name is between 3 to 25 characters long.");
+        setLoading(false); // Reset loading state
         return; // Exiting the function
       }
 
@@ -66,11 +70,13 @@ export default function ContactPage() {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(formData.email)) {
         toast.error("Please enter a valid email address.");
+        setLoading(false); // Reset loading state
         return; // Exiting the function
       }
 
       if (formData.email.length < 5 || formData.email.length > 30) {
         toast.error("Please ensure your email address is between 5 to 30 characters in length.");
+        setLoading(false); // Reset loading state
         return; // Exiting the function
       }
 
@@ -78,6 +84,7 @@ export default function ContactPage() {
       const phonePattern = /^[1-9]\d{9}$/; // Matches 10 digits starting from 1-9
       if (!phonePattern.test(formData.phone)) {
         toast.error("Phone number should be exactly 10 digits and cannot start with 0 and spaces are not allowed.");
+        setLoading(false); // Reset loading state
         return; // Exiting the function
       }
       // else if(!formData.phone.startsWith([7,8,9])){
@@ -88,12 +95,14 @@ export default function ContactPage() {
       // Subject validation 
       if (formData.subject.length < 3 || formData.subject.length > 100) {
         toast.error("Subject should be in between 3 to 100 words")
+        setLoading(false); // Reset loading state
         return;
       }
 
       // message validation
       if (formData.message.length < 3 || formData.message.length > 1000) {
         toast.error("Please leave a message atleast in between 3 to 1000 words")
+        setLoading(false); // Reset loading state
         return;
       }
 
@@ -113,11 +122,9 @@ export default function ContactPage() {
       console.error("An error occurred:", error.message);
       toast.error("Something went Wrong while sending the message");
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset loading state no matter what happened
     }
-
   };
-
 
   return (
     <>
@@ -206,7 +213,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300  rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-
+                        disabled={loading}
                       />
                     </div>
                     <div>
@@ -220,7 +227,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-
+                        disabled={loading}
                       />
                     </div>
                   </div>
@@ -237,7 +244,7 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-
+                        disabled={loading}
                       />
                     </div>
                     <div>
@@ -251,7 +258,7 @@ export default function ContactPage() {
                         value={formData.subject}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-
+                        disabled={loading}
                       />
                     </div>
                   </div>
@@ -267,13 +274,14 @@ export default function ContactPage() {
                       onChange={handleChange}
                       rows={6}
                       className="w-full px-4 py-2 border dark:border-gray-700 dark:text-white dark:bg-gray-800 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
-
+                      disabled={loading}
                     ></textarea>
                   </div>
 
                   <button
                     type="submit"
                     className="w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                    disabled={loading}
                   >
                     <Send className="h-5 w-5" />
                     {sendMessageButtonText}
