@@ -14,7 +14,7 @@ const CareerPage = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
 
-  const PostImageUrl = "https://img.freepik.com/free-photo/shine-stylish-young-adult-studio-shot-smart_1134-902.jpg?t=st=1736098001~exp=1736101601~hmac=c7b09b5ff7385b6527a86ba73a169ebae2ae5dde34cb47b70a499440b915d0e6&w=1060"
+  const CarrerPageHeroImage = "https://img.freepik.com/free-photo/labor-union-members-working-together_23-2150995044.jpg?t=st=1740849888~exp=1740853488~hmac=52ee454c571349bca2eb439cbe6a98f816e9713ed4c9e4b810e31635ec8256fd&w=1480"
 
   const office1 = "https://img.freepik.com/free-photo/side-view-relaxed-happy-businessman-sitting-office_23-2147839951.jpg?t=st=1736100340~exp=1736103940~hmac=bf46b72527f3a0ee8c69b835944c62e1a1793fa1d0d54f8a109b5e8c8e9b7b94&w=900"
 
@@ -97,9 +97,9 @@ const CareerPage = () => {
       <ToastContainer />
 
       {/* Hero Section */}
-      <div className="relative py-32 bg-slate-900 text-slate-100">
+      <div className="relative py-32 dark:0 bg-gray-950 dark:bg-gray-950 text-slate-100">
         <img
-          src={PostImageUrl}
+          src={CarrerPageHeroImage}
           alt="Career hero"
           className="absolute inset-0 w-full h-full object-cover opacity-20"
         />

@@ -53,104 +53,100 @@ export default function Navbar() {
   ];
 
   return (
-    <>
-      <nav className="bg-white shadow-md w-full top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo and Company Name */}
-            <div className="flex-shrink-0">
-              <Link href="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
-              <img
+    <nav className="bg-white dark:bg-gray-800 shadow-md w-full sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo and Company Name */}
+          <Link href="/" className="flex items-center space-x-2">
+            <img
               src="/images/logo.png"
               alt="Company Logo"
-              className="h-20 lg:h-24 w-auto"
+              className="h-20 lg:h-24 w-auto object-contain dark:invert"
             />
-              </Link>
-            </div>
+          </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex md:items-center md:space-x-4">
-              {/* Services Dropdown */}
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none focus:text-blue-600 transition-colors"
-                >
-                  Services
-                  <ChevronDown className={`w-4 h-4 ml-1 transform transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-                
-                {/* Dropdown Menu */}
-                <div
-                  className={`absolute right-0 z-[100] mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out transform ${
-                    isDropdownOpen
-                      ? 'opacity-100 scale-100'
-                      : 'opacity-0 scale-95 pointer-events-none'
-                  }`}
-                >
-                  <div className="py-1">
-                    {serviceItems.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className="flex items-center z-100 gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        {item.icon}
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:space-x-4">
+            {/* Services Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+              >
+                Services
+                <ChevronDown className={`w-4 h-4 ml-1 transform transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {/* Dropdown Menu */}
+              <div
+                className={`absolute right-0 z-[100] mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 dark:ring-gray-700 transition-all duration-200 ease-in-out transform ${
+                  isDropdownOpen
+                    ? 'opacity-100 scale-100'
+                    : 'opacity-0 scale-95 pointer-events-none'
+                }`}
+              >
+                <div className="py-1">
+                  {serviceItems.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="flex items-center z-100 gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      {item.icon}
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
-
-              {/* Other Nav Items */}
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
             </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => {
-                  setIsMenuOpen(!isMenuOpen);
-                  setIsDropdownOpen(false);
-                }}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors"
-                aria-label="Toggle menu"
+            {/* Other Nav Items */}
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
               >
-                {isMenuOpen ? (
-                  <X className="h-8 w-8" />
-                ) : (
-                  <Menu className="h-8 w-8" />
-                )}
-              </button>
-            </div>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => {
+                setIsMenuOpen(!isMenuOpen);
+                setIsDropdownOpen(false);
+              }}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="h-7 w-7" />
+              ) : (
+                <Menu className="h-7 w-7" />
+              )}
+            </button>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Mobile Navigation Overlay */}
       <div 
-        className={`fixed inset-0 bg-white z-40 md:hidden transition-transform duration-300 ease-in-out transform ${
+        className={`fixed inset-0 bg-white dark:bg-gray-900 z-40 md:hidden transition-transform duration-300 ease-in-out transform ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{ top: '64px' }} // Height of the navbar
       >
-        <div className="h-full overflow-y-auto">
-          <div className="px-4 pt-4 pb-20 space-y-3">
+        <div className="h-full overflow-y-auto p-4">
+          <div className="space-y-2">
             {/* Services Section in Mobile */}
             <div className="space-y-2">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full flex items-center justify-between px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
+                className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
               >
                 Services
                 <ChevronDown className={`w-4 h-4 transform transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
@@ -165,7 +161,7 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                     onClick={() => {
                       setIsMenuOpen(false);
                       setIsDropdownOpen(false);
@@ -183,7 +179,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
+                className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}
@@ -192,6 +188,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </>
+    </nav>
   );
 }

@@ -38,7 +38,7 @@ export default function HomePage() {
       <ImageSlider />
       
       {/* About Section */}
-      <section className="py-20 bg-white" id="about">
+      <section className="py-20 bg-slate-200 dark:bg-gray-900" id="about">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -48,19 +48,19 @@ export default function HomePage() {
               <h2 className="text-4xl font-bold text-blue-500 leading-tight">
                 Trusted Industrial service provider
               </h2>
-              <p className="text-gray-700">
+              <p className="dark:text-gray-200">
                 RIYA INDUSTRIAL SERVICES Established on the 15th of November 2011 by MR. VIKAS MANZA, He embarked on this voyage with a vision to scale new heights of success.
               </p>
-              <p className="text-gray-600">
+              <p className="dark:text-gray-200">
                 They believe that all companies are built with trust, mutual respect and co-operation between client and company and they do just that.
               </p>
-              <p className="text-gray-700">
+              <p className="dark:text-gray-200">
               RIYA INDUSTRIAL SERVICES has grown in leaps and bounds over the years following its inception. In the able hands of MR.VIKAS MANZA, a diverse workforce of the highest caliber and a strong infrastructure the company's portfolio of diversified services by exceeding client expectations and achieving market leadership.
               </p>
             </div>
             <div className="relative">
               <img 
-                src="https://img.freepik.com/free-photo/workers-examining-work_1122-970.jpg" 
+                src="https://img.freepik.com/free-photo/medium-shot-architect-engineer-supervising-construction_23-2148233708.jpg?t=st=1740850285~exp=1740853885~hmac=1043531933ae432e5bf757ab8e4b469a9d4fd905fd1fd65f99113d9a4569eeab&w=1480" 
                 alt="Industrial Services" 
                 className="rounded-lg shadow-xl"
               />
@@ -71,7 +71,7 @@ export default function HomePage() {
       </section>
 
       {/* Industries Section */}
-      <section className="py-16 md:py-24 px-4 bg-gray-50">
+      <section className="py-16 md:py-24 px-4 bg-white dark:bg-gray-800">
         <div className="container mx-auto">
           <div className="mb-12 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-blue-500">
@@ -83,17 +83,17 @@ export default function HomePage() {
             {industries.map((industry, index) => (
               <div 
                 key={index}
-                className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 group cursor-pointer"
+                className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 group cursor-pointer"
               >
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 flex items-center justify-center">
+                  <div className="w-16 h-16 flex items-center justify-center bg-gray-50 dark:rounded-lg">
                     <img 
                       src={industry.icon} 
                       alt={industry.title}
                       className="w-12 h-12 text-[#1E3A8A] group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 whitespace-pre-line">
+                  <h3 className="text-xl font-semibold whitespace-pre-line text-gray-800 dark:text-white">
                     {industry.title}
                   </h3>
                 </div>

@@ -12,6 +12,7 @@ export default function AdminDashboard() {
     const [contacts, setContacts] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [deleteInProgress, setDeleteInProgress] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,6 +35,7 @@ export default function AdminDashboard() {
     const handleSingleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this message?')) {
             try {
+                setDeleteInProgress(true);
                 const response = await axios.delete(`/api/users/contact/${id}`);
 
                 if (response.data.success) {
@@ -44,12 +46,14 @@ export default function AdminDashboard() {
                     toast.success('Message deleted successfully', { autoClose: 2000 });
                 } else {
                     // Handle unsuccessful deletion (e.g., if message wasn't found)
-                    toast.warn(response.data.error || 'Failed to delete message');
+                    toast.error(response.data.error || 'Failed to delete message');
                 }
             } catch (err) {
                 console.error('Error deleting message:', err);
                 // Show more specific error message
-                alert(err.response?.data?.error || 'Failed to delete message');
+                toast.error(err.response?.data?.error || 'Failed to delete message');
+            } finally {
+                setDeleteInProgress(false);
             }
         }
     };
@@ -66,21 +70,6 @@ export default function AdminDashboard() {
     return (
         <div className="min-h-screen bg-slate-200 dark:bg-gray-800">
             <div className="md:p-6 p-3 max-w-7xl mx-auto space-y-6">
-                {/* User Info Section */}
-                {/* <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <div>
-                            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Welcome, {user.username}</h1>
-                            <p className="text-gray-600 dark:text-gray-300">{user.email}</p>
-                        </div>
-                        <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-lg border border-blue-100 dark:border-blue-800">
-                            <MessageSquare className="h-5 w-5 text-blue-500 dark:text-blue-400" />
-                            <span className="text-blue-600 dark:text-blue-300 font-medium">
-                                Total Messages: {contacts.length}
-                            </span>
-                        </div>
-                    </div>
-                </div> */}
 
                 {/* Search Bar */}
                 <div className="relative">
@@ -159,7 +148,8 @@ export default function AdminDashboard() {
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => handleSingleDelete(selectedMessage._id)}
-                                            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full transition-colors group"
+                                            disabled={deleteInProgress}
+                                            className={`p-2 ${deleteInProgress ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-100 dark:hover:bg-red-900/30'} rounded-full transition-colors group`}
                                             title="Delete message"
                                         >
                                             <Trash2 className="h-5 w-5 text-red-500 dark:text-red-400 group-hover:text-red-600 dark:group-hover:text-red-300" />
@@ -224,6 +214,7 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             )}
+            <ToastContainer />
         </div>
     );
 }

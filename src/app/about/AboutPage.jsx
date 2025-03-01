@@ -57,7 +57,7 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <h2 className="text-blue-600 font-semibold tracking-wide uppercase mb-2">ABOUT US</h2>
+          <h2 className="text-blue-500 font-semibold tracking-wide uppercase mb-2">ABOUT US</h2>
           <h1 className="text-4xl md:text-5xl font-bold text-blue-500 mb-6">
             Trusted Industrial service provider
           </h1>
