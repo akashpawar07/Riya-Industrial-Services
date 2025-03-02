@@ -59,12 +59,12 @@ const JobsSection = () => {
   });
 
   // Debug logging (remove in production)
-  useEffect(() => {
-    if (searchTerm) {
-      console.log('Search term:', searchTerm);
-      console.log('Filtered jobs count:', filteredJobs.length);
-    }
-  }, [searchTerm, filteredJobs]);
+  // useEffect(() => {
+  //   if (searchTerm) {
+  //     console.log('Search term:', searchTerm);
+  //     console.log('Filtered jobs count:', filteredJobs.length);
+  //   }
+  // }, [searchTerm, filteredJobs]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b  bg-slate-200 dark:bg-gray-900">

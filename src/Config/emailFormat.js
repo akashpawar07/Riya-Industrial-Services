@@ -60,6 +60,7 @@ export const generatePasswordResetEmail = (username, resetUrl) => {
     `;
 };
 
+
 // Generate password reset success email HTML
 export const generatePasswordResetSuccessEmail = (username) => {
     return `

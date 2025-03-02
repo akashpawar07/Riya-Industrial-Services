@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Mail, User, UsersRound, CircleUserRound, X, ChevronRight, MessageSquare, Calendar, Inbox, ArrowLeft, Search, Trash2 } from "lucide-react";
-import {ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import Loader from '@/components/Loader';
 
 export default function AdminDashboard() {
@@ -64,11 +64,12 @@ export default function AdminDashboard() {
     );
 
     if (loading) {
-        return <Loader/>
+        return <Loader />
     }
 
     return (
         <div className="min-h-screen bg-slate-200 dark:bg-gray-800">
+            <ToastContainer position="top-right" theme='colored' autoClose={3000} />
             <div className="md:p-6 p-3 max-w-7xl mx-auto space-y-6">
 
                 {/* Search Bar */}
