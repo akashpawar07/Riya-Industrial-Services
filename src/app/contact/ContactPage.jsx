@@ -108,7 +108,6 @@ export default function ContactPage() {
 
       // Post API request on the "register" endpoint
       const response = await axios.post("/api/users/contact", formData);
-      // console.log("response data :", response)
 
       if (response.data.success) {
         toast.success(response.data.message);
