@@ -49,7 +49,7 @@ export default function HomePage() {
                 Trusted Industrial service provider
               </h2>
               <p className="dark:text-gray-200">
-                RIYA INDUSTRIAL SERVICES Established on the 15th of November 2011 by MR. VIKAS MANZA, He embarked on this voyage with a vision to scale new heights of success.
+                RIYA INDUSTRIAL SERVICES Established on the 15th of November 2017 by MR. VIKAS MANZA, He embarked on this voyage with a vision to scale new heights of success.
               </p>
               <p className="dark:text-gray-200">
                 They believe that all companies are built with trust, mutual respect and co-operation between client and company and they do just that.
