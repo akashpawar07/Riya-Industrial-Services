@@ -41,7 +41,7 @@ export default function Footer() {
                         className="flex items-center text-gray-300 hover:text-blue-400 transition-colors w-full group"
                       >
                         <span>{link.name}</span>
-                        <ChevronDown 
+                        <ChevronDown
                           className={`ml-1 w-4 h-4 transition-transform duration-200 group-hover:text-blue-400 ${isServicesOpen ? 'transform rotate-180' : ''}`}
                         />
                       </button>
@@ -144,13 +144,16 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      
+
       {/* Copyright Section */}
       <div className="bg-gray-900 text-gray-300 py-4">
         <div className="max-w-7xl mx-auto px-4 flex flex-col text-center md:flex-row justify-between items-center text-sm">
           <p>Copyright © 2024 Riya Industrial Services. All Rights Reserved.</p>
           <p className="mt-2 md:mt-0">
-            Website Design | Developed By: <span className="text-blue-400 hover:text-blue-300"><a href="https://akashpawar07.github.io/portfolio">Akash S Pawar</a></span>
+            Website Design | Developed By:
+            <Link href="https://akashpawar07.github.io/portfolio" className="text-blue-400 hover:text-blue-300 ml-1">
+              Akash S Pawar
+            </Link>
           </p>
         </div>
       </div>
