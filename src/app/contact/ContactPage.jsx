@@ -129,19 +129,69 @@ export default function ContactPage() {
     <>
       <ToastContainer position="top-right" theme="colored" />
       <div className="min-h-screen  bg-slate-200 dark:bg-gray-900 pb-6">
+
+
         {/* Hero Section */}
-        <div className="relative h-[60vh] w-full mb-24">
+        <div className="relative h-[60vh] w-full mb-12">
           <img
             src="https://img.freepik.com/free-photo/lifestyle-technology-concept-portrait-cheerful-happy-ginger-red-hair-girl-with-joyful-exc_1258-123883.jpg?t=st=1735212988~exp=1735216588~hmac=af50fe5ebfdbbeac4f463c8be087ed5d32100a06d9089d849489ccf58a536602&w=1060"
             alt="Contact Us"
             className="w-full h-full object-cover"
+
           />
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white text-center animate-bounce">
               Connect with us!
             </h1>
           </div>
         </div>
+
+        {/* map section */}
+        <div className="max-w-7xl mx-auto p-2 mb-16">
+          <div className="bg-white shadow-lg overflow-hidden">
+            {/* Optional: Add a header */}
+            <div className="bg-gray-50 px-6 py-4 border-b">
+              <h3 className="text-lg font-semibold text-gray-800">Our Location</h3>
+              <p className="text-sm text-gray-600 mt-1">Visit us at our office</p>
+            </div>
+
+            {/* Map container */}
+            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[450px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7419.342988612175!2d73.01712642728667!3d21.5987424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be023a49047e2ff%3A0x300ecd6c51915626!2sSanskardham%20Apartment!5e0!3m2!1sen!2sin!4v1752337554489!5m2!1sen!2sin"
+                className="absolute inset-0 w-full h-full border-0"
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Riya Industrial Services Location"
+              />
+            </div>
+
+            {/* Optional: Add address info below map */}
+            <div className="bg-gray-50 px-6 py-4 border-t">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+
+                <div className="flex space-x-4">
+                  <a
+                    href="tel:+919309748909"
+                    className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    📞 Call Us
+                  </a>
+                  <a
+                    href="https://maps.google.com/?q=Sanskardham%20Apartment"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    🗺️ Get Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         {/* Contact Section */}
         <div className="max-w-7xl mx-auto px-4 mb-16">
@@ -291,51 +341,6 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* map section */}
-        <div className="max-w-7xl mx-auto px-2 mb-16">
-          <div className="bg-white shadow-lg overflow-hidden">
-            {/* Optional: Add a header */}
-            <div className="bg-gray-50 px-6 py-4 border-b">
-              <h3 className="text-lg font-semibold text-gray-800">Our Location</h3>
-              <p className="text-sm text-gray-600 mt-1">Visit us at our office</p>
-            </div>
-
-            {/* Map container */}
-            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[450px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7419.342988612175!2d73.01712642728667!3d21.5987424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be023a49047e2ff%3A0x300ecd6c51915626!2sSanskardham%20Apartment!5e0!3m2!1sen!2sin!4v1752337554489!5m2!1sen!2sin"
-                className="absolute inset-0 w-full h-full border-0"
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Riya Industrial Services Location"
-              />
-            </div>
-
-            {/* Optional: Add address info below map */}
-            <div className="bg-gray-50 px-6 py-4 border-t">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                
-                <div className="flex space-x-4">
-                  <a
-                    href="tel:+919309748909"
-                    className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
-                  >
-                    📞 Call Us
-                  </a>
-                  <a
-                    href="https://maps.google.com/?q=Sanskardham%20Apartment"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
-                  >
-                    🗺️ Get Directions
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </>

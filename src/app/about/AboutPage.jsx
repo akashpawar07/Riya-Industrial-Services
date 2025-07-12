@@ -81,8 +81,7 @@ export default function AboutPage() {
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
               <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-gray-100">Our Values</h3>
               <p className=" dark:text-gray-200  leading-relaxed">
-                They believe that all companies are built with trust, mutual respect 
-                and co-operation between client and company and they do just that.
+                "They recognize that exceptional service stems from genuine understanding, clear communication, and the dedication to exceed expectations at every turn. Their philosophy centers on building bridges of collaboration, where shared vision and mutual growth create the cornerstone of enduring business relationships."
               </p>
             </div>
           </div>
