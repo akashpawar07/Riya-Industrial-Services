@@ -292,8 +292,8 @@ export default function ContactPage() {
         </div>
 
         {/* map section */}
-        <div className="max-w-7xl mx-auto px-4 mb-16">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="max-w-7xl mx-auto px-2 mb-16">
+          <div className="bg-white shadow-lg overflow-hidden">
             {/* Optional: Add a header */}
             <div className="bg-gray-50 px-6 py-4 border-b">
               <h3 className="text-lg font-semibold text-gray-800">Our Location</h3>
