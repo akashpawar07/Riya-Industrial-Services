@@ -21,7 +21,7 @@ export default function LoginPage() {
         e.preventDefault();
 
         if (!user.email || !user.password) {
-            toast.warning("All fields are mandatory", { autoClose: 3000 });
+            toast.warning("All fields are mandatory", { autoClose: 2000 });
             return;
         }
 
