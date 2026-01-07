@@ -24,7 +24,7 @@ export default function AdminDashboard() {
                 setUser(userRes.data[0]);
                 setContacts([...contactRes.data.data].reverse());
             } catch (err) {
-                console.log(err.message)
+                // console.log(err.message)
             } finally {
                 setLoading(false);
             }
@@ -43,7 +43,7 @@ export default function AdminDashboard() {
                     setContacts(contacts.filter(contact => contact._id !== id));
                     setSelectedMessage(null);
                     // Show success message
-                    toast.success('Message deleted successfully', { autoClose: 2000 });
+                    toast.success('Message deleted successfully', { autoClose: 2000, theme:'colored' });
                 } else {
                     // Handle unsuccessful deletion (e.g., if message wasn't found)
                     toast.error(response.data.error || 'Failed to delete message');
@@ -74,7 +74,7 @@ export default function AdminDashboard() {
 
     return (
         <div className="min-h-screen bg-slate-200 dark:bg-gray-800">
-            <ToastContainer position="top-right" theme='colored' autoClose={3000} />
+            <ToastContainer position="top-right" theme='colored' autoClose={2000} />
             <div className="md:p-6 p-3 max-w-7xl mx-auto space-y-6">
 
                 {/* Search Bar */}
@@ -230,7 +230,7 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             )}
-            <ToastContainer />
+            
         </div>
     );
 }
