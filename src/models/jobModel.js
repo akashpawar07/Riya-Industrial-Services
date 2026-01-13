@@ -34,7 +34,7 @@ const jobSchema = new mongoose.Schema({
     default: 'Not disclosed'
   },
   lastDateToApply: {
-    type: Date,
+    type: String,
     required: true
   },
   showCtc: {
