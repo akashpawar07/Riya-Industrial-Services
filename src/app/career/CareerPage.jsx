@@ -18,13 +18,9 @@ const CareerPage = () => {
   const CarrerPageHeroImage = "https://img.freepik.com/free-photo/labor-union-members-working-together_23-2150995044.jpg?t=st=1740849888~exp=1740853488~hmac=52ee454c571349bca2eb439cbe6a98f816e9713ed4c9e4b810e31635ec8256fd&w=1480"
 
   const office1 = "https://img.freepik.com/free-photo/side-view-relaxed-happy-businessman-sitting-office_23-2147839951.jpg?t=st=1736100340~exp=1736103940~hmac=bf46b72527f3a0ee8c69b835944c62e1a1793fa1d0d54f8a109b5e8c8e9b7b94&w=900"
-
   const office2 = "https://img.freepik.com/free-photo/management-young-businessman-moving-office_155003-28719.jpg?t=st=1736100405~exp=1736104005~hmac=00a08b052316e6e1b455985ae83ea12da40afa4f1d41183b145eb744bd154ddd&w=900"
-
   const office3 = "https://img.freepik.com/free-photo/medium-shot-woman-working-laptop_23-2149358476.jpg?t=st=1736155386~exp=1736158986~hmac=1050e52d56ae32ed2e44fe8e4dc73b4c21f4f1c10d89a9191874bb7e4c126046&w=900"
-
   const office4 = "https://img.freepik.com/free-photo/charming-man-white-shirt-cap-glasses-is-against-blue-space-guy-holds-laptop-works-vacation_197531-15465.jpg?t=st=1736155432~exp=1736159032~hmac=aa4d08c88a3b5ca3e028c8ce870de48eefdb44999366da5c601c666853df1fe2&w=900"
-
 
   const benefits = [
     {
@@ -60,28 +56,25 @@ const CareerPage = () => {
   ];
 
   return (
-    <div className="min-h-screen  bg-slate-200 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-200 dark:bg-gray-900">
       <ToastContainer />
 
       {/* Hero Section */}
-      <div className="relative py-32 dark:0 bg-gray-950 dark:bg-gray-950 text-slate-100">
-        <img
+      <div className="relative py-32 bg-gray-950 text-slate-100 overflow-hidden">
+        {/* Fix 1: Replaced <img> with <Image /> and added priority */}
+        <Image
           src={CarrerPageHeroImage}
           alt="Career hero"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          fill
+          priority
+          className="object-cover opacity-20"
+          sizes="100vw"
         />
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-6xl font-bold mb-6">Shape the Future With Us</h1>
           <p className="text-xl mb-8 max-w-2xl">
             Join a team of innovators, dreamers, and doers. Build technologies that make a difference.
           </p>
-          {/* <button 
-              onClick={() => setSearchTerm('')}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              View All Positions
-            </button> */}
-
         </div>
       </div>
 
@@ -90,7 +83,7 @@ const CareerPage = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">Our Culture</h2>
           <p className="text-xl dark:text-gray-300 max-w-3xl mx-auto">
-            We're building more than just a company. We're creating a place where innovative minds thrive.
+            We&apos;re building more than just a company. We&apos;re creating a place where innovative minds thrive.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
@@ -104,7 +97,8 @@ const CareerPage = () => {
         </div>
       </div>
 
-      // Career page all jobs are coming from this components
+      {/* Fix 2: Wrapped the raw text comment in JSX braces */}
+      {/* Career page all jobs are coming from this components */}
       <JobsSection />
 
       {/* Company Values */}
@@ -153,42 +147,38 @@ const CareerPage = () => {
 
           {/* Grid Section */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="relative overflow-hidden rounded-lg">
+            <div className="relative overflow-hidden rounded-lg h-64">
               <Image
                 src={office1}
                 alt="Office life 1"
-                width={500}
-                height={600}
+                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 50vw, 25vw"
               />
             </div>
-            <div className="relative overflow-hidden rounded-lg mt-8">
+            <div className="relative overflow-hidden rounded-lg mt-8 h-64">
               <Image
                 src={office2}
                 alt="Office life 2"
-                width={500}
-                height={600}
+                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 50vw, 25vw"
               />
             </div>
-            <div className="relative overflow-hidden rounded-lg">
+            <div className="relative overflow-hidden rounded-lg h-64">
               <Image
                 src={office3}
                 alt="Office life 3"
-                width={500}
-                height={600}
+                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 50vw, 25vw"
               />
             </div>
-            <div className="relative overflow-hidden rounded-lg mt-8">
+            <div className="relative overflow-hidden rounded-lg mt-8 h-64">
               <Image
                 src={office4}
                 alt="Office life 4"
-                width={500}
-                height={600}
+                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 50vw, 25vw"
               />
@@ -196,7 +186,6 @@ const CareerPage = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
