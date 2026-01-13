@@ -20,66 +20,64 @@ export default function ResetPasswordPage() {
         confirmPassword: ""
     });
 
-    const handleResetPassword = useCallback(async (e) => {
-        e.preventDefault();
+    //handling reset-password logic here
+    const handleResetPassword = useCallback((e) => {
+    e.preventDefault();
 
-        if (!passwords.newPassword || !passwords.confirmPassword) {
-            toast.warning("All fields are mandatory", { autoClose: 3000 });
-            return;
+    // 1. Validations (Remain the same)
+    if (!passwords.newPassword || !passwords.confirmPassword) {
+        toast.warning("All fields are mandatory");
+        return;
+    }
+    if (passwords.newPassword !== passwords.confirmPassword) {
+        toast.error("Passwords do not match");
+        return;
+    }
+
+    setLoading(true);
+
+    // 2. Create the promise logic
+    const resetPromise = axios.post("/api/users/resetpassword", {
+        token,
+        newPassword: passwords.newPassword
+    }, { timeout: 10000 })
+    .then((res) => {
+        if (!res.data.success) {
+            return Promise.reject(res.data.message || "Reset failed");
         }
+        return res.data;
+    });
 
-        if (passwords.newPassword !== passwords.confirmPassword) {
-            toast.error("Passwords do not match", { theme: "colored" });
-            return;
-        }
-
-        // Password validation
-        const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        if (passwords.newPassword.length < 8 || passwords.newPassword.length > 20) {
-            toast.info("Please ensure your password is between 8 to 20 characters in length.");
-            return;
-        } else if (!passwordPattern.test(passwords.newPassword)) {
-            toast.info("For your security, please ensure that your password contains a combination of letters, numbers, and special characters");
-            return;
-        }
-
-        try {
-            setLoading(true);
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-            const response = await axios.post("/api/users/resetpassword", {
-                token,
-                newPassword: passwords.newPassword
-            }, {
-                signal: controller.signal,
-                timeout: 10000
-            });
-
-            clearTimeout(timeoutId);
-
-            if (response.data.success) {
-                toast.success("Password Reset Successful", {
-                    onClose: () => {
+    // 3. Pass to toast.promise with a "Muffler" catch
+    toast.promise(
+        resetPromise,
+        {
+            pending: "Updating your password...",
+            success: {
+                render() {
+                    setTimeout(() => {
                         router.push('/login');
                         router.refresh();
-                    },
-                    autoClose: 2000
-                });
-            } else {
-                toast.error(response.data.message || "Password Reset Failed", { theme: "colored" });
+                    }, 2000);
+                    return "Password Reset Successful! ";
+                }
+            },
+            error: {
+                render({ data }) {
+                    // Extract message safely from Axios error or our Rejected string
+                    const msg = typeof data === 'string' ? data : data?.response?.data?.message;
+                    return msg || "Failed to reset password";
+                }
             }
-        } catch (error) {
-            if (error.code === 'ECONNABORTED') {
-                toast.error("Request timed out. Please try again.", { theme: "colored" });
-            } else {
-                toast.error(error.response?.data?.error || "Failed to reset password", { theme: "colored" });
-            }
-            console.error("Password reset error:", error);
-        } finally {
-            setLoading(false);
         }
-    }, [passwords, token, router]);
+    ).catch(() => {
+        // This prevents the "Unhandled Runtime Error" overlay if the API returns 400/500
+        console.log("Reset rejection handled by toast UI.");
+    }).finally(() => {
+        setLoading(false);
+    });
+
+}, [passwords, token, router]);
 
     const handleInputChange = useCallback((field) => (e) => {
         setPasswords(prev => ({ ...prev, [field]: e.target.value }));
@@ -100,7 +98,8 @@ export default function ResetPasswordPage() {
 
     return (
         <>
-            <ToastContainer position="top-right" theme="colored" />
+            <ToastContainer position="top-center" autoClose={3000} limit={3} />
+
             <div className="loginPage min-h-screen w-full bg-black/30 flex items-center justify-center p-4">
                 {/* Home Button */}
                 <Link

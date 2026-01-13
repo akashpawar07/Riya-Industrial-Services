@@ -16,81 +16,60 @@ export default function ForgotPassword() {
         return emailRegex.test(email);
     };
 
-    const handleSubmit = useCallback(async (e) => {
+    // handling forgot-password logic here
+    const handleSubmit = useCallback((e) => { // Removed async from here
         e.preventDefault();
-        
-        // Validate email
+
         if (!email) {
-            toast.warning("Please enter your email address", { theme: "colored" });
+            toast.warning("Please enter your email address");
             return;
         }
 
         if (!validateEmail(email)) {
-            toast.error("Please enter a valid email address", { theme: "colored" });
+            toast.error("Please enter a valid email address");
             return;
         }
 
-        try {
-            setLoading(true);
+        setLoading(true);
 
-            // Set up request timeout
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
+        // 1. Create the promise and handle the 200-but-success-false case
+        const forgotPasswordPromise = axios.post("/api/users/forgotpassword",
+            { email },
+            { timeout: 10000 }
+        ).then((res) => {
+            if (!res.data.success) {
+                return Promise.reject(res.data.error || "Failed to send recovery email");
+            }
+            return res.data;
+        });
 
-            const response = await axios.post("/api/users/forgotpassword", 
-                { email },
-                {
-                    signal: controller.signal,
-                    timeout: 10000,
-                    headers: {
-                        'Content-Type': 'application/json'
+        // 2. Pass to toast.promise
+        toast.promise(
+            forgotPasswordPromise,
+            {
+                pending: "Sending recovery email...",
+                success: {
+                    render() {
+                        setEmailSent(true);
+                        setLoading(false);
+                        return "Recovery instructions sent! 📧";
+                    }
+                },
+                error: {
+                    render({ data }) {
+                        setLoading(false);
+                        // Handle Axios error vs Manual Reject string
+                        const msg = typeof data === 'string' ? data : data.response?.data?.error;
+                        return msg || "Email not found or server error ❌";
                     }
                 }
-            );
-
-            clearTimeout(timeoutId);
-
-            if (response.data.success) {
-                setEmailSent(true);
-                toast.success("Recovery instructions sent to your email", { 
-                    theme: "colored",
-                    autoClose: 3000 
-                });
-            } else {
-                throw new Error(response.data.error || "Failed to send recovery email");
             }
+        ).catch(() => {
+            // This empty catch is the "Muffler"
+            // It prevents the 400 error from triggering the Next.js Error Overlay
+            console.log("Promise rejected, handled by Toast.");
+        });
 
-        } catch (error) {
-            let errorMessage = "Failed to send recovery email. Please try again.";
-            
-            if (error.code === 'ECONNABORTED') {
-                errorMessage = "Request timed out. Please try again.";
-            } else if (error.response) {
-                // Handle specific API error responses
-                switch (error.response.status) {
-                    case 400:
-                        errorMessage = error.response.data.error || "Invalid email address";
-                        break;
-                    case 404:
-                        errorMessage = "Email address not found";
-                        break;
-                    case 429:
-                        errorMessage = "Too many requests. Please try again later";
-                        break;
-                    case 500:
-                        errorMessage = "Server error. Please try again later";
-                        break;
-                }
-            }
-
-            toast.error(errorMessage, { 
-                theme: "colored",
-                autoClose: 5000
-            });
-            console.error("Password reset error:", error);
-        } finally {
-            setLoading(false);
-        }
     }, [email]);
 
     // Handle resend functionality
@@ -101,10 +80,10 @@ export default function ForgotPassword() {
 
     return (
         <>
-            <ToastContainer 
-                position="top-right" 
-                theme="colored"
+            <ToastContainer
+                position="top-center"
                 limit={3}
+                autoClose={3000}
             />
             <div className="forgot-password min-h-screen w-full bg-black/30 flex items-center justify-center p-4">
                 {/* Back to Login Button */}
@@ -148,7 +127,7 @@ export default function ForgotPassword() {
                                             placeholder="Enter your email address"
                                             disabled={loading}
                                             autoComplete="email"
-                                            
+
                                         />
                                     </div>
 
