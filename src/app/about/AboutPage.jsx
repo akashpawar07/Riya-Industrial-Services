@@ -1,14 +1,17 @@
 import React from 'react';
 import { Building2 } from 'lucide-react';
+import Image from 'next/image';
 
 const ClientCard = ({ name, logoUrl }) => (
   <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
     <div className="flex flex-col items-center space-y-4">
-      <div className="w-24 h-24 flex items-center justify-center bg-gray-50 rounded-lg p-2">
-        <img
-          src={ logoUrl }  
+      <div className="relative w-24 h-24 flex items-center justify-center bg-gray-50 rounded-lg p-2">
+        <Image
+          src={logoUrl}
           alt={`${name} logo`}
-          className="max-w-full max-h-full object-cover bg-transparent"
+          fill
+          className="object-contain p-2" 
+          sizes="(max-width: 96px) 100vw, 96px"
         />
       </div>
       <h4 className="text-center text-gray-800 dark:text-white font-medium">{name}</h4>
@@ -70,8 +73,8 @@ export default function AboutPage() {
               <Building2 className="h-12 w-12 text-blue-500 mb-4" />
               <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-gray-100">Our Foundation</h3>
               <p className=" dark:text-gray-200 leading-relaxed">
-                RIYA INDUSTRIAL SERVICES. Established on the 15th of November 2017 by 
-                MR.VIKAS MANZA, embarked on this voyage with a vision to 
+                RIYA INDUSTRIAL SERVICES. Established on the 15th of November 2017 by
+                MR.VIKAS MANZA, embarked on this voyage with a vision to
                 scale new heights of success.
               </p>
             </div>
@@ -91,9 +94,9 @@ export default function AboutPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-16">
           <h3 className="text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">Our Growth Story</h3>
           <p className=" dark:text-gray-200 leading-relaxed mb-6">
-            RIYA INDUSTRIAL SERVICES has grown in leaps and bounds over the years 
-            following its inception. In the able hands of MR. Vikas Manza a diverse 
-            workforce of the highest caliber and a strong infrastructure the company's portfolio of 
+            RIYA INDUSTRIAL SERVICES has grown in leaps and bounds over the years
+            following its inception. In the able hands of MR. Vikas Manza a diverse
+            workforce of the highest caliber and a strong infrastructure the company's portfolio of
             diversified services by exceeding client expectations and achieving market leadership.
           </p>
         </div>

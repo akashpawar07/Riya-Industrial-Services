@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useRouter } from "next/navigation";
 import {
@@ -88,15 +89,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Company Name */}
-          <Link
-            href="/admin-dashboard"
-            className="flex items-center space-x-2"
-          >
-            <img
-              src="/images/logo.png"
-              alt="Company Logo"
-              className="h-20 lg:h-24 w-auto object-contain dark:invert"
-            />
+          <Link href="/admin-dashboard" className="flex items-center space-x-2">
+            <div className="relative h-20 lg:h-24">
+              <Image
+                src="/images/logo.png"
+                alt="Company Logo"
+                width={300}
+                height={100}
+                className="h-full w-auto object-contain dark:invert"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -108,8 +111,8 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
-                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                     }`}
                 >
                   {item.icon}
@@ -159,8 +162,8 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 text-base font-medium rounded-md transition-colors ${isActive
-                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   onClick={() => setIsMenuOpen(false)}
                 >

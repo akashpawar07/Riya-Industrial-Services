@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -64,11 +65,16 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Company Name */}
           <Link href="/" className="flex items-center space-x-2">
-            <img
-              src="/images/logo.png"
-              alt="Company Logo"
-              className="h-20 lg:h-24 w-auto object-contain dark:invert"
-            />
+            <div className="relative h-20 lg:h-24">
+              <Image
+                src="/images/logo.png"
+                alt="Company Logo"
+                width={400}
+                height={96}
+                className="h-full w-auto object-contain dark:invert"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

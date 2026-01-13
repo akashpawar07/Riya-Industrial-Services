@@ -1,12 +1,14 @@
-
 import React from 'react';
-import { Image, Camera, ImagePlus, ArrowLeft } from 'lucide-react';
+import { Image as ImageIcon, Camera, ImagePlus, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+
 export default function GalleryPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4">
       <div className="max-w-6xl mx-auto">
-       
+        
+        
 
         {/* Main content */}
         <div className="text-center mb-16">
@@ -25,10 +27,13 @@ export default function GalleryPage() {
               key={index}
               className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg flex items-center justify-center group hover:scale-105 transition-transform duration-300 relative overflow-hidden"
             >
+              {/* Note: When you add real images, use the Next.js <Image /> component here with an alt prop */}
               <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
               <div className="relative z-10">
+                {/* Use the aliased ImageIcon here */}
                 {index % 3 === 0 ? (
-                  <Image className="w-12 h-12 text-gray-400 dark:text-gray-500 group-hover:text-purple-500 transition-colors" />
+                  <ImageIcon className="w-12 h-12 text-gray-400 dark:text-gray-500 group-hover:text-purple-500 transition-colors" />
                 ) : index % 3 === 1 ? (
                   <Camera className="w-12 h-12 text-gray-400 dark:text-gray-500 group-hover:text-purple-500 transition-colors" />
                 ) : (
@@ -50,7 +55,7 @@ export default function GalleryPage() {
           </h2>
 
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-            We're currently curating and preparing our best work to showcase here. Our gallery will feature stunning visuals that capture our projects, achievements, and moments.
+            We&apos;re currently curating and preparing our best work to showcase here. Our gallery will feature stunning visuals that capture our projects, achievements, and moments.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-gray-500 dark:text-gray-400 mb-8">

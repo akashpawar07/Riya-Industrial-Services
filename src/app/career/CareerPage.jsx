@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Briefcase, MapPin, Clock, Send, Search, Users, Award, Target, Building, ArrowRight, Frown } from 'lucide-react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,7 +23,7 @@ const CareerPage = () => {
 
   const office3 = "https://img.freepik.com/free-photo/medium-shot-woman-working-laptop_23-2149358476.jpg?t=st=1736155386~exp=1736158986~hmac=1050e52d56ae32ed2e44fe8e4dc73b4c21f4f1c10d89a9191874bb7e4c126046&w=900"
 
-  const office4 = "https://img.freepik.com/free-photo/charming-man-white-shirt-cap-glasses-is-against-blue-space-guy-holds-laptop-works-vacation_197531-15465.jpg?t=st=1736155432~exp=1736159032~hmac=aa4d08c88a3b5ca3e028c8ce870de48eefdb44999366da5c601c666853df1fe2&w=900" 
+  const office4 = "https://img.freepik.com/free-photo/charming-man-white-shirt-cap-glasses-is-against-blue-space-guy-holds-laptop-works-vacation_197531-15465.jpg?t=st=1736155432~exp=1736159032~hmac=aa4d08c88a3b5ca3e028c8ce870de48eefdb44999366da5c601c666853df1fe2&w=900"
 
 
   const benefits = [
@@ -104,7 +105,7 @@ const CareerPage = () => {
       </div>
 
       // Career page all jobs are coming from this components
-      <JobsSection/>
+      <JobsSection />
 
       {/* Company Values */}
       <div className=" py-24">
@@ -144,16 +145,54 @@ const CareerPage = () => {
               ].map((item, index) => (
                 <li key={index} className="flex items-center">
                   <ArrowRight className="w-5 h-5 text-blue-600 mr-2" />
-                  <span>{item}</span>
+                  <span className="dark:text-gray-300">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
+
+          {/* Grid Section */}
           <div className="grid grid-cols-2 gap-4">
-            <img src={office1} alt="Office life 1" className="rounded-lg" />
-            <img src={office2} alt="Office life 2" className="rounded-lg mt-8" />
-            <img src={office3} alt="Office life 3" className="rounded-lg" />
-            <img src={office4} alt="Office life 4" className="rounded-lg mt-8" />
+            <div className="relative overflow-hidden rounded-lg">
+              <Image
+                src={office1}
+                alt="Office life 1"
+                width={500}
+                height={600}
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <div className="relative overflow-hidden rounded-lg mt-8">
+              <Image
+                src={office2}
+                alt="Office life 2"
+                width={500}
+                height={600}
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <div className="relative overflow-hidden rounded-lg">
+              <Image
+                src={office3}
+                alt="Office life 3"
+                width={500}
+                height={600}
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <div className="relative overflow-hidden rounded-lg mt-8">
+              <Image
+                src={office4}
+                alt="Office life 4"
+                width={500}
+                height={600}
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
           </div>
         </div>
       </div>

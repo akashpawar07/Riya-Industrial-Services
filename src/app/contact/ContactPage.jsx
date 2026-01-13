@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useMemo } from 'react';
 import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { MapPin, Phone, Mail, Send, Clock } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -127,21 +128,25 @@ export default function ContactPage() {
       <ToastContainer position="top-right" theme="colored" />
       <div className="min-h-screen  bg-slate-200 dark:bg-gray-900 pb-6">
 
-
         {/* Hero Section */}
         <div className="relative h-[60vh] w-full mb-12">
-          <img
+          <Image
             src="https://img.freepik.com/free-photo/lifestyle-technology-concept-portrait-cheerful-happy-ginger-red-hair-girl-with-joyful-exc_1258-123883.jpg?t=st=1735212988~exp=1735216588~hmac=af50fe5ebfdbbeac4f463c8be087ed5d32100a06d9089d849489ccf58a536602&w=1060"
             alt="Contact Us"
-            className="w-full h-full object-cover"
-
+            fill // Makes the image fill the 60vh container
+            priority // Loads the image immediately (essential for hero sections)
+            className="object-cover"
+            sizes="100vw" // Tells the browser the image takes the full width
           />
+
+          {/* Overlay and Text */}
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white text-center animate-bounce">
               Connect with us!
             </h1>
           </div>
         </div>
+
 
         {/* map section */}
         <div className="max-w-7xl mx-auto p-2 mb-16">
