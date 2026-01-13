@@ -37,11 +37,11 @@ export async function POST(request) {
         }
 
 
-        // 1. Checking here File Size (5MB = 5 * 1024 * 1024 bytes)
-        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        // 1. Checking here File Size (2MB = 2 * 1024 * 1024 bytes)
+        const MAX_FILE_SIZE = 2 * 1024 * 1024;
         if (file.size > MAX_FILE_SIZE) {
             return NextResponse.json({
-                message: "Resume file size must be 5MB or less.",
+                message: "Resume file size must be 2MB or less.",
                 success: false,
             }, { status: 400 });
         }
@@ -102,6 +102,9 @@ export async function POST(request) {
             newApplication._id,
             newApplication.jobTitle
         );
+
+        // console.log(newApplication)
+
         return NextResponse.json({
             message: "Application submitted successfully",
             success: true,

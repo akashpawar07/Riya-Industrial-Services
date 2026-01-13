@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from "next/navigation";
 import {
   Menu,
+  User,
   X,
   Power,
   Home,
@@ -76,6 +77,11 @@ export default function Navbar() {
       href: '/admin-dashboard/job-posting',
       icon: <Briefcase className="w-5 h-5" />
     },
+    {
+      label: 'Received Application',
+      href: '/admin-dashboard/received-application',
+      icon: <User className='w-5 h-5'/>
+    }
   ];
 
   return (

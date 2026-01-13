@@ -70,14 +70,14 @@ function ApplyForJob({ isOpen, onClose, jobTitle, jobId }) {
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 2 * 1024 * 1024; // 2MB
 
     if (!allowedTypes.includes(file.type)) {
       toast.error("Resume must be a PDF or Word document.", { position: 'top-center' });
       return false;
     }
     if (file.size > maxSize) {
-      toast.error("Resume file size must be 5MB or less.", { position: 'top-center' });
+      toast.error("Resume file size must be 2MB or less.", { position: 'top-center' });
       return false;
     }
     return true;
