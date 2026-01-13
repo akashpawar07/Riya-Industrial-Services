@@ -40,92 +40,68 @@ export default function ContactPage() {
     [loading]
   );
 
+  // handling submit for normal user
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true at the beginning of submission
+
+    // 1. Validation Logic
+    if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
+      toast.error("All fields are mandatory.");
+      return;
+    }
+
+    const usernameRegex = /^(?!.*\d)(?!.*\s{2,})[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
+    if (!usernameRegex.test(formData.name) || formData.name.length < 3 || formData.name.length > 25) {
+      toast.error("Invalid name. Use 3-25 letters only.");
+      return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(formData.email) || formData.email.length < 5 || formData.email.length > 30) {
+      toast.error("Please enter a valid email (5-30 chars).");
+      return;
+    }
+
+    const phonePattern = /^[1-9]\d{9}$/;
+    if (!phonePattern.test(formData.phone)) {
+      toast.error("Phone number must be 10 digits and not start with 0.");
+      return;
+    }
+
+    // 2. The API Call & Toast Promise
+    setLoading(true);
 
     try {
-      // Validate mandatory fields
-      if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
-        toast.error("All fields are mandatory.");
-        setLoading(false); // Reset loading state if validation fails
-        return; // Exiting the function after warning
-      }
+      const contactPromise = axios.post("/api/users/contact", formData);
 
-      // User name validation
-      const usernameRegex = /^(?!.*\d)(?!.*\s{2,})[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
-
-      if (!usernameRegex.test(formData.name)) {
-        toast.error("For your name, please use letters only. No numbers or multiple spaces allowed.");
-        setLoading(false); // Reset loading state
-        return; // Exiting the function
-      }
-
-      if (formData.name.length < 3 || formData.name.length > 25) {
-        toast.error("To proceed, please make sure that your name is between 3 to 25 characters long.");
-        setLoading(false); // Reset loading state
-        return; // Exiting the function
-      }
-
-      // Email validation
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailPattern.test(formData.email)) {
-        toast.error("Please enter a valid email address.");
-        setLoading(false); // Reset loading state
-        return; // Exiting the function
-      }
-
-      if (formData.email.length < 5 || formData.email.length > 30) {
-        toast.error("Please ensure your email address is between 5 to 30 characters in length.");
-        setLoading(false); // Reset loading state
-        return; // Exiting the function
-      }
-
-      // Phone number validation
-      const phonePattern = /^[1-9]\d{9}$/; // Matches 10 digits starting from 1-9
-      if (!phonePattern.test(formData.phone)) {
-        toast.error("Phone number should be exactly 10 digits and cannot start with 0 and spaces are not allowed.");
-        setLoading(false); // Reset loading state
-        return; // Exiting the function
-      }
-
-
-      // Subject validation 
-      if (formData.subject.length < 3 || formData.subject.length > 100) {
-        toast.error("Subject should be in between 3 to 100 words")
-        setLoading(false); // Reset loading state
-        return;
-      }
-
-      // message validation
-      if (formData.message.length < 3 || formData.message.length > 1000) {
-        toast.error("Please leave a message atleast in between 3 to 1000 words")
-        setLoading(false); // Reset loading state
-        return;
-      }
-
-      // Post API request on the "register" endpoint
-      const response = await axios.post("/api/users/contact", formData);
-
-      if (response.data.success) {
-        toast.success(response.data.message);
-      } else {
-        toast.error("Failed to send message.");
-      }
-
-      handleResetForm(); // Resetting the form fields
+      await toast.promise(
+        contactPromise,
+        {
+          pending: "Sending your message...",
+          success: {
+            render({ data }) {
+              handleResetForm(); // ✅ Reset ONLY on success
+              return data.data.message || "Message sent successfully!";
+            },
+          },
+          error: {
+            render({ data }) {
+              return data.response?.data?.message || "Failed to send message. ❌";
+            },
+          },
+        }
+      );
 
     } catch (error) {
       console.error("An error occurred:", error.message);
-      toast.error("Something went Wrong while sending the message");
     } finally {
-      setLoading(false); // Reset loading state no matter what happened
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <ToastContainer position="top-right" theme="colored" />
+      <ToastContainer position="top-center" autoClose="3000" />
       <div className="min-h-screen  bg-slate-200 dark:bg-gray-900 pb-6">
 
         {/* Hero Section */}

@@ -33,29 +33,35 @@ export default function AdminDashboard() {
     }, []);
 
     const handleSingleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this message?')) {
-            try {
-                setDeleteInProgress(true);
-                const response = await axios.delete(`/api/users/contact/${id}`);
+        // Keep the confirm dialog to prevent accidental clicks
+        if (!window.confirm('Are you sure you want to delete this message?')) return;
 
-                if (response.data.success) {
-                    // Only update state if delete was successful
-                    setContacts(contacts.filter(contact => contact._id !== id));
-                    setSelectedMessage(null);
-                    // Show success message
-                    toast.success('Message deleted successfully', { autoClose: 2000, theme:'colored' });
-                } else {
-                    // Handle unsuccessful deletion (e.g., if message wasn't found)
-                    toast.error(response.data.error || 'Failed to delete message');
+        setDeleteInProgress(true);
+
+        // Define the delete promise
+        const deletePromise = axios.delete(`/api/users/contact/${id}`);
+
+        toast.promise(
+            deletePromise,
+            {
+                pending: 'Deleting message...',
+                success: {
+                    render() {
+                        // Update UI state immediately on success
+                        setContacts(prev => prev.filter(contact => contact._id !== id));
+                        setSelectedMessage(null);
+                        return 'Message deleted successfully';
+                    }
+                },
+                error: {
+                    render({ data }) {
+                        return data.response?.data?.error || 'Failed to delete message ❌';
+                    }
                 }
-            } catch (err) {
-                console.error('Error deleting message:', err);
-                // Show more specific error message
-                toast.error(err.response?.data?.error || 'Failed to delete message');
-            } finally {
-                setDeleteInProgress(false);
             }
-        }
+        ).finally(() => {
+            setDeleteInProgress(false);
+        });
     };
 
     const filteredContacts = contacts.filter(contact =>
@@ -74,7 +80,7 @@ export default function AdminDashboard() {
 
     return (
         <div className="min-h-screen bg-slate-200 dark:bg-gray-800">
-            <ToastContainer position="top-right" theme='colored' autoClose={2000} />
+            <ToastContainer position="top-center" autoClose={3000} />
             <div className="md:p-6 p-3 max-w-7xl mx-auto space-y-6">
 
                 {/* Search Bar */}
@@ -230,7 +236,7 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             )}
-            
+
         </div>
     );
 }

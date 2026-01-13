@@ -17,48 +17,53 @@ export default function LoginPage() {
         password: ""
     });
 
+    // handling the loginc logic here
     const handleLogin = useCallback(async (e) => {
         e.preventDefault();
 
         if (!user.email || !user.password) {
-            toast.warning("All fields are mandatory", { autoClose: 2000 });
+            toast.warning("All fields are mandatory");
             return;
         }
 
-        try {
-            setLoading(true);
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
+        setLoading(true);
 
-            const response = await axios.post("/api/users/login", user, {
-                signal: controller.signal,
-                timeout: 10000
+        // We pass the promise directly to toast.promise
+        // We use .then() to handle the "success: false" case without crashing the app
+        const loginPromise = axios.post("/api/users/login", user, { timeout: 10000 })
+            .then((res) => {
+                // If server sends 200 OK but success is false
+                if (!res.data.success) {
+                    return Promise.reject(res.data.message || "Invalid Password");
+                }
+                return res.data;
             });
 
-            clearTimeout(timeoutId);
-
-            if (response.data.success) {
-                toast.success("Login Successful", {
-                    onClose: () => {
-                        router.push('/admin-dashboard');
-                        router.refresh();
-                    },
-                    autoClose: 2000
-                });
-            } else {
-                toast.error(response.data.message || "Login Failed", { theme: "colored" });
+        toast.promise(
+            loginPromise,
+            {
+                pending: "Verifying credentials...",
+                success: {
+                    render({ data }) {
+                        setTimeout(() => {
+                            router.push('/admin-dashboard');
+                            router.refresh();
+                        }, 1500);
+                        return "Login Successful! Redirecting...";
+                    }
+                },
+                error: {
+                    render({ data }) {
+                        // 'data' will be the string from Promise.reject or the Axios error message
+                        const msg = typeof data === 'string' ? data : data?.response?.data?.message;
+                        return msg || "Login Failed";
+                    }
+                }
             }
-            
-        } catch (error) {
-            if (error.code === 'ECONNABORTED') {
-                toast.error("Request timed out. Please try again.", { theme: "colored" });
-            } else {
-                toast.error(error.response?.data?.message || "Failed to Login", { theme: "colored" });
-            }
-            console.error("Login error:", error);
-        } finally {
+        ).finally(() => {
             setLoading(false);
-        }
+        });
+
     }, [user, router]);
 
     const handleInputChange = useCallback((field) => (e) => {
@@ -76,7 +81,7 @@ export default function LoginPage() {
 
     return (
         <>
-            <ToastContainer position="top-right" theme="colored" />
+            <ToastContainer position="top-center" autoClose={3000} />
             <div className="loginPage min-h-screen w-full bg-black/30 flex items-center justify-center p-4">
                 {/* Home Button - Fixed Position */}
                 <Link
@@ -157,7 +162,7 @@ export default function LoginPage() {
                                 </button>
                             </div>
 
-                            
+
                         </form>
                     </div>
                 </div>

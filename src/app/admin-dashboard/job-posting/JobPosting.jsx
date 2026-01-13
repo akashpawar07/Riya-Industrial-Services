@@ -72,49 +72,80 @@ const JobPostingSystem = () => {
         return true;
     }
 
-    // Submit the form
+    // handling the job posting here
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         setIsSubmitting(true);
+        setLoading(true);
 
-        if (!validateForm()) {
-            setIsSubmitting(false);
-            return;
-        }
+        // Create the promise for the API call
+        const postJobPromise = axios.post('/api/users/job-posting', formData);
 
-        try {
-            setLoading(true);
-            const response = await axios.post('/api/users/job-posting', formData);
-            setJobs(prevJobs => [...prevJobs, response.data.data]);
-            toast.success('Job posted successfully!');
-            setFormData(initialFormData);
-        } catch (error) {
-            console.error('Failed to post job:', error);
-            toast.error(error.response?.data?.message || 'Failed to post job');
-        } finally {
+        toast.promise(
+            postJobPromise,
+            {
+                pending: 'Posting your job...',
+                success: {
+                    render({ data }) {
+                        // Update the state with the new job from response
+                        setJobs(prevJobs => [...prevJobs, data.data.data]);
+                        setFormData(initialFormData);
+                        return 'Job posted successfully! ';
+                    }
+                },
+                error: {
+                    render({ data }) {
+                        // Extract error message from axios error
+                        return data.response?.data?.message || 'Failed to post job ❌';
+                    }
+                }
+            }
+        ).finally(() => {
             setLoading(false);
             setIsSubmitting(false);
-        }
+        });
     };
 
-    // Delete the job
+    // handle delete functionality for 
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this job posting?')) {
             return;
         }
 
+        const toastId = toast.loading("Deleting job...");
+
         try {
             setLoading(true);
-            await axios.delete(`/api/users/job-posting/${id}`);
-            setJobs(prevJobs => prevJobs.filter(job => job._id !== id));
-            toast.success('Job deleted successfully');
+            const response = await axios.delete(`/api/users/job-posting/${id}`);
+
+            if (response.status === 200 || response.status === 204) {
+
+                setJobs(prevJobs => prevJobs.filter(job => job._id !== id));
+                toast.update(toastId, {
+                    render: "Job deleted successfully!",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 3000
+                });
+            }
         } catch (error) {
             console.error('Failed to delete job:', error);
-            toast.error(error.response?.data?.message || 'Failed to delete job');
+
+            // Error path: Update the existing toast instead of showing a new one
+            toast.update(toastId, {
+                render: error.response?.data?.message || 'Failed to delete job',
+                type: "error",
+                isLoading: false,
+                autoClose: 3000
+            });
         } finally {
             setLoading(false);
         }
     };
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -133,18 +164,43 @@ const JobPostingSystem = () => {
         }));
     };
 
-    // Date format
+    // date format
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        if (!dateString) return 'N/A';
+
+        try {
+            // If the date is a simple string like "2026-01-13"
+            // We split it to avoid timezone shifting issues
+            if (typeof dateString === 'string' && dateString.includes('-') && !dateString.includes('T')) {
+                const [year, month, day] = dateString.split('-').map(Number);
+                // new Date(year, monthIndex, day)
+                const dateObj = new Date(year, month - 1, day);
+                return dateObj.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            // Fallback for ISO strings (from MongoDB Date type)
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return 'N/A';
+
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                timeZone: 'UTC' // Essential for MongoDB Date types
+            });
+        } catch (error) {
+            console.error("Date formatting error:", error);
+            return 'N/A';
+        }
     };
 
     return (
         <div className="container mx-auto px-4 py-6 max-w-7xl bg-gray-100 dark:bg-gray-900">
-            <ToastContainer position="top-center" theme='colored' autoClose={3000} />
+            <ToastContainer position="top-center" autoClose={3000} />
 
             <div className="grid gap-8 lg:grid-cols-2">
                 {/* Job Posting Form */}
@@ -321,7 +377,7 @@ const JobPostingSystem = () => {
                     </form>
                 </div>
 
-                
+
                 {/* Job Listings */}
                 <div className="w-full md:p-4 rounded-lg dark:bg-gray-800">
                     <div className="flex sm:items-center gap-2 mb-6">

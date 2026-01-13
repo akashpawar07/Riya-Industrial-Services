@@ -27,6 +27,7 @@ function ApplyForJob({ isOpen, onClose, jobTitle, jobId }) {
     resume: null
   });
 
+  //
   useEffect(() => {
     if (isOpen) {
       setFormData(prev => ({
@@ -124,59 +125,77 @@ function ApplyForJob({ isOpen, onClose, jobTitle, jobId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // --- REMAINING VALIDATION ---
+    // --- VALIDATION ---
     const nameRegex = /^[a-zA-Z]{2,}(?:\s[a-zA-Z]{2,}){1,2}$/;
     if (!formData.applicantName.trim()) {
-      toast.warning("Full name is required", { position: 'top-center' });
+      toast.warning("Full name is required");
       return;
     } else if (!nameRegex.test(formData.applicantName)) {
-      toast.warning("For your name, please use letters only .", { position: 'top-center' });
+      toast.warning("For your name, please use letters only.");
       return;
     }
 
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(formData.applicantEmail)) {
-      toast.warning("Please enter a valid email address.", { position: 'top-center' });
+      toast.warning("Please enter a valid email address.");
       return;
     }
 
     const phonePattern = /^[1-9]\d{9}$/;
     if (!phonePattern.test(formData.applicantPhone)) {
-      toast.warning("Please enter a valid 10-digit phone number.", { position: 'top-center' });
+      toast.warning("Please enter a valid 10-digit phone number.");
       return;
     }
 
     if (!formData.resume) {
-      toast.warning("Please upload your resume.", { position: 'top-center' });
+      toast.warning("Please upload your resume.");
       return;
     }
 
     setIsSubmitting(true);
-    try {
-      const submitData = new FormData();
-      submitData.append('applicantName', formData.applicantName);
-      submitData.append('applicantEmail', formData.applicantEmail);
-      submitData.append('applicantPhone', formData.applicantPhone);
-      submitData.append('jobId', formData.jobId);
-      submitData.append('jobTitle', formData.jobTitle);
-      submitData.append('resume', formData.resume);
 
-      const res = await axios.post("/api/users/career", submitData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+    // --- FORM DATA PREPARATION ---
+    const submitData = new FormData();
+    Object.keys(formData).forEach(key => {
+      submitData.append(key, formData[key]);
+    });
 
-      if (res.data.success) {
-        toast.success(res.data.message || "Application submitted!", { autoClose: 2000 });
-        resetForm();
-        setTimeout(() => {
-          setIsSubmitting(false);
-          onClose();
-        }, 3000);
+    // --- THE LOGIC WRAPPER (Crash-Proof) ---
+    const careerPromise = axios.post("/api/users/career", submitData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }).then((res) => {
+      // Check for success flag in 200 OK responses
+      if (!res.data.success) {
+        return Promise.reject(res.data.message || "Submission failed");
       }
-    } catch (error) {
-      setIsSubmitting(false);
-      toast.error(error.response?.data?.message || "An error occurred");
-    }
+      return res.data;
+    });
+
+    // --- TOAST PROMISE ---
+    toast.promise(
+      careerPromise,
+      {
+        pending: "Uploading resume and submitting...",
+        success: {
+          render({ data }) {
+            resetForm();
+            setTimeout(() => {
+              setIsSubmitting(false);
+              onClose();
+            }, 2000);
+            return data.message || "Application submitted successfully! 📄";
+          }
+        },
+        error: {
+          render({ data }) {
+            setIsSubmitting(false);
+            // Safely extract message from Axios error or our Rejected string
+            const msg = typeof data === 'string' ? data : data?.response?.data?.message;
+            return msg || "Something went wrong ❌";
+          }
+        }
+      }
+    );
   };
 
   const handleBackdropClick = (e) => {

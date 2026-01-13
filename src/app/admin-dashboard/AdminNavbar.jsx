@@ -35,6 +35,7 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
+  // handling logout logic here
   const handleLogout = async () => {
     try {
       if (loading) return;
@@ -48,8 +49,9 @@ export default function Navbar() {
             router.push('/');
             router.refresh();
           },
-          autoClose: 2000
+          autoClose: 1500
         });
+        
       } else {
         toast.error("Failed to logout");
       }
@@ -80,7 +82,7 @@ export default function Navbar() {
     {
       label: 'Received Application',
       href: '/admin-dashboard/received-application',
-      icon: <User className='w-5 h-5'/>
+      icon: <User className='w-5 h-5' />
     }
   ];
 
@@ -88,7 +90,6 @@ export default function Navbar() {
     <nav className="bg-white dark:bg-gray-800 shadow-md w-full sticky top-0 z-50">
       <ToastContainer
         position="top-right"
-        theme="colored"
         limit={1}
       />
 
