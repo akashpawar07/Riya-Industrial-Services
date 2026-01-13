@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   User, Mail, Phone, FileText, Search,
-  Briefcase, Loader, AlertCircle, Frown, X, Eye, Calendar
+  Briefcase, Loader, AlertCircle, Frown, X, Eye, Calendar, Trash2
 } from 'lucide-react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AllApplicantsPage = () => {
   const [applicants, setApplicants] = useState([]);
@@ -13,7 +15,6 @@ const AllApplicantsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewingResume, setViewingResume] = useState(null);
 
-  // Helper function to format date to dd/mm/yyyy
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -47,10 +48,37 @@ const AllApplicantsPage = () => {
     fetchApplicants();
   }, []);
 
+  // --- DELETE HANDLER ---
+  const handleSingleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this applicant?")) return;
+
+    try {
+      // Show loading toast
+      const deleteToast = toast.loading("Deleting applicant...");
+      
+      const response = await axios.delete(`/api/users/career/${id}`);
+      
+      if (response.status === 200 || response.status === 204) {
+        // Update local state (Optimistic UI)
+        setApplicants(applicants.filter(app => app._id !== id));
+        
+        toast.update(deleteToast, { 
+          render: "Applicant deleted successfully!", 
+          type: "success", 
+          isLoading: false, 
+          autoClose: 3000 
+        });
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      toast.error("Failed to delete applicant. Please try again.");
+    }
+  };
+
   const handleViewResume = (resumeObj) => {
     try {
       if (!resumeObj || !resumeObj.data) {
-        return alert("Resume data is missing or corrupted.");
+        return toast.warning("Resume file not found.");
       }
 
       let base64Data = "";
@@ -82,8 +110,7 @@ const AllApplicantsPage = () => {
       });
 
     } catch (err) {
-      console.error("PDF Parsing Error:", err);
-      alert("Error: The PDF data format is not recognized.");
+      toast.error("Error displaying resume.");
     }
   };
 
@@ -94,9 +121,10 @@ const AllApplicantsPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto">
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
 
-        {/* Header & Search */}
+      <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
             <User className="text-blue-600" /> Received Applications
@@ -114,9 +142,10 @@ const AllApplicantsPage = () => {
           </div>
         </div>
 
-        {/* Content Area */}
         {loading ? (
-          <div className="flex flex-col items-center py-20 text-gray-500"><Loader className="animate-spin mb-2" /> Loading...</div>
+          <div className="flex flex-col items-center py-20 text-gray-500">
+            <Loader className="animate-spin mb-2" /> Loading applicants...
+          </div>
         ) : (
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
             <div className="overflow-x-auto">
@@ -126,9 +155,8 @@ const AllApplicantsPage = () => {
                     <th className="px-6 py-4 font-semibold">Candidate</th>
                     <th className="px-6 py-4 font-semibold">Applied For</th>
                     <th className="px-6 py-4 font-semibold">Contact</th>
-                    {/* NEW COLUMN HEADER */}
                     <th className="px-6 py-4 font-semibold">Applied On</th>
-                    <th className="px-6 py-4 font-semibold text-center">Resume</th>
+                    <th className="px-6 py-4 font-semibold text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -140,20 +168,29 @@ const AllApplicantsPage = () => {
                         <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400"><Mail className="w-3.5 h-3.5" /> {app.applicantEmail}</div>
                         <div className="flex items-center gap-2 text-gray-500 mt-1"><Phone className="w-3.5 h-3.5" /> {app.applicantPhone}</div>
                       </td>
-                      {/* NEW COLUMN DATA */}
                       <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-gray-400" />
                           {formatDate(app.appliedAt)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-center">
-                        <button
-                          onClick={() => handleViewResume(app.resume)}
-                          className="flex items-center gap-2 mx-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm shadow-sm"
-                        >
-                          <Eye className="w-4 h-4" /> View
-                        </button>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => handleViewResume(app.resume)}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-xs"
+                            title='View Applicant Resume'
+                          >
+                            <Eye className="w-4 h-4" /> View
+                          </button>
+                          <button
+                            onClick={() => handleSingleDelete(app._id)}
+                            className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all"
+                            title="Delete Applicant"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -164,27 +201,20 @@ const AllApplicantsPage = () => {
         )}
       </div>
 
-      {/* --- RESUME VIEW MODAL --- */}
+      {/* Resume Modal */}
       {viewingResume && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-gray-800 w-full max-w-5xl h-[90vh] rounded-2xl flex flex-col overflow-hidden shadow-2xl border border-x-green-700 border-y-red-700">
+          <div className="bg-white dark:bg-gray-800 w-full max-w-5xl h-[90vh] rounded-2xl flex flex-col overflow-hidden shadow-2xl">
             <div className="p-4 border-b dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900 ">
               <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
                 <FileText className="text-blue-500" /> {viewingResume.name}
               </h3>
-              <button
-                onClick={() => setViewingResume(null)}
-                className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
-              >
+              <button onClick={() => setViewingResume(null)} className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
                 <X className="w-6 h-6 text-gray-500" />
               </button>
             </div>
             <div className="flex-1 bg-gray-100 dark:bg-gray-900">
-              <iframe
-                src={viewingResume.uri}
-                className="w-full h-full border-none"
-                title="Resume Preview"
-              />
+              <iframe src={viewingResume.uri} className="w-full h-full border-none" title="Resume Preview" />
             </div>
           </div>
         </div>
