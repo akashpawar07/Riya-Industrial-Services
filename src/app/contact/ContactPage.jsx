@@ -87,10 +87,7 @@ export default function ContactPage() {
         setLoading(false); // Reset loading state
         return; // Exiting the function
       }
-      // else if(!formData.phone.startsWith([7,8,9])){
-      //   toast.error("Phone number digits should starts with 9,8,7 only")
-      //   return;
-      // }
+
 
       // Subject validation 
       if (formData.subject.length < 3 || formData.subject.length > 100) {
@@ -173,7 +170,7 @@ export default function ContactPage() {
 
                 <div className="flex space-x-4">
                   <a
-                    href="tel:+919309748909"
+                    href="tel:+919096149604"
                     className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
                   >
                     📞 Call Us

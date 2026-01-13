@@ -23,35 +23,7 @@ const CareerPage = () => {
   const office3 = "https://img.freepik.com/free-photo/medium-shot-woman-working-laptop_23-2149358476.jpg?t=st=1736155386~exp=1736158986~hmac=1050e52d56ae32ed2e44fe8e4dc73b4c21f4f1c10d89a9191874bb7e4c126046&w=900"
 
   const office4 = "https://img.freepik.com/free-photo/charming-man-white-shirt-cap-glasses-is-against-blue-space-guy-holds-laptop-works-vacation_197531-15465.jpg?t=st=1736155432~exp=1736159032~hmac=aa4d08c88a3b5ca3e028c8ce870de48eefdb44999366da5c601c666853df1fe2&w=900" 
-  // const jobs = [
-  //   {
-  //     id: 1,
-  //     title: "Senior Software Engineer",
-  //     location: "San Francisco, CA",
-  //     type: "Full-time",
-  //     department: "Engineering",
-  //     description: "We're looking for an experienced software engineer to join our team and help build amazing products.",
-  //     requirements: ["5+ years experience", "React expertise", "Strong CS fundamentals"]
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Product Designer",
-  //     location: "Remote",
-  //     type: "Full-time",
-  //     department: "Design",
-  //     description: "Join our design team to create beautiful and intuitive user experiences for our global users.",
-  //     requirements: ["3+ years experience", "UI/UX expertise", "Figma proficiency"]
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Marketing Manager",
-  //     location: "New York, NY",
-  //     type: "Full-time",
-  //     department: "Marketing",
-  //     description: "Lead our marketing initiatives and drive growth through innovative strategies.",
-  //     requirements: ["4+ years experience", "Digital marketing", "Team leadership"]
-  //   }
-  // ];
+
 
   const benefits = [
     {
@@ -85,12 +57,6 @@ const CareerPage = () => {
       description: "We celebrate differences and create an inclusive environment for all."
     }
   ];
-
-  // const filteredJobs = jobs.filter(job =>
-  //   job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   job.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   job.department.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
 
   return (
     <div className="min-h-screen  bg-slate-200 dark:bg-gray-900">
@@ -137,7 +103,7 @@ const CareerPage = () => {
         </div>
       </div>
 
-
+      // Career page all jobs are coming from this components
       <JobsSection/>
 
       {/* Company Values */}

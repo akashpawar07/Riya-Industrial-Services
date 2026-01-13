@@ -25,7 +25,7 @@ export default function AdminDashboard() {
         setContactCount(contactRes.data.data.length);
         setJobCount(jobsRes.data.data.length);
       } catch (err) {
-        console.error("Dashboard data fetch error", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
